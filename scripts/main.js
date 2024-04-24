@@ -38,7 +38,6 @@ let levels = {
                     },
                     imageSrc: './img/doorOpen.png',
                     frameRate: 5,
-                    frameBuffer: 7,
                     loop: false,
                     autoplay: false,
                 })
@@ -50,23 +49,21 @@ let levels = {
                         x: 64 * 7,
                         y: 64 * 3
                     },
+                    lastDirection: 'left',
                     imageSrc: './img/pigs/idleLeft.png',
                     frameRate: 11,
                     frameBuffer: 7,
-                    animations: {
-                        iidleRight: {
-                            frameRate: 11,
-                            frameBuffer: 7,
-                            loop: true,
-                            imageSrc: './img/pigs/idleRight.png'
-                        },
-                        idleLeft: {
-                            frameRate: 11,
-                            frameBuffer: 7,
-                            loop: true,
-                            imageSrc: './img/pigs/idleLeft.png'
-                        },
-                    }
+                }),
+                new Pig({
+                    collisionBlocks,
+                    position: {
+                        x: 80,
+                        y: 64 * 3
+                    },
+                    lastDirection: 'right',
+                    imageSrc: './img/pigs/idleRight.png',
+                    frameRate: 11,
+                    frameBuffer: 7,
                 })
             ]
         }
@@ -97,7 +94,6 @@ let levels = {
                     },
                     imageSrc: './img/doorOpen.png',
                     frameRate: 5,
-                    frameBuffer: 7,
                     loop: false,
                     autoplay: false,
                 })
@@ -132,7 +128,6 @@ let levels = {
                     },
                     imageSrc: './img/doorOpen.png',
                     frameRate: 5,
-                    frameBuffer: 7,
                     loop: false,
                     autoplay: false,
                 })
@@ -145,76 +140,8 @@ let levels = {
 
 
 const player = new Player({ 
-    collisionBlocks,
     imageSrc: './img/king/idleRight.png',
     frameRate: 11,
-    animations: {
-        idleRight: {
-            frameRate: 11,
-            frameBuffer: 7,
-            loop: true,
-            imageSrc: './img/king/idleRight.png'
-        },
-        idleLeft: {
-            frameRate: 11,
-            frameBuffer: 7,
-            loop: true,
-            imageSrc: './img/king/idleLeft.png'
-        },
-        runRight: {
-            frameRate: 8,
-            frameBuffer: 7,
-            loop: true,
-            imageSrc: './img/king/runRight.png'
-        },
-        runLeft: {
-            frameRate: 8,
-            frameBuffer: 7,
-            loop: true,
-            imageSrc: './img/king/runLeft.png'
-        },
-        doorIn: {
-            frameRate: 8,
-            frameBuffer: 7,
-            loop: false,
-            imageSrc: './img/king/doorIn.png',
-            onComplete: () => {
-                gsap.to(overlay, {
-                    opacity: 1,
-                    onComplete: () => {
-                        level++;
-                        if (level === 4) level = 1;
-                        levels[level].init();
-                        player.switchSprite('idleRight');
-                        player.preventInput = false;
-                        gsap.to(overlay, {
-                            opacity: 0
-                        })
-                    }
-                })
-            }
-        },
-        attackRight: {
-            frameRate: 3,
-            frameBuffer: 7,
-            loop: false,
-            imageSrc: './img/king/attackRight.png',
-            onComplete: () => {
-                player.preventInput = false;
-                player.handleInput(keys);
-            }
-        },
-        attackLeft: {
-            frameRate: 3,
-            frameBuffer: 7,
-            loop: false,
-            imageSrc: './img/king/attackLeft.png',
-            onComplete: () => {
-                player.preventInput = false;
-                player.handleInput(keys);
-            }
-        },
-    }
 });
 
 const keys = {
@@ -247,7 +174,11 @@ function animate() {
         door.draw();
     });
 
-    pigs.forEach((pig) => {
+    pigs.forEach((pig, index) => {
+        if (pig.isDead) {
+            pigs.splice(index, 1);
+        }
+
         pig.update();
         pig.draw();
     });

@@ -8,6 +8,7 @@ window.addEventListener("keydown", (event) => {
             else if (player.lastDirection === "left") player.switchSprite('attackLeft');
             
             break;
+        case "ц":
         case "w":
             for (let i = 0; i < doors.length; i++) {
                 const door = doors[i];
@@ -27,10 +28,12 @@ window.addEventListener("keydown", (event) => {
             }
 
             if (player.velocity.y == 0) player.velocity.y = -13;
-            break; 
+            break;
+        case "ф": 
         case "a":
             keys.a.pressed = true;
             break;
+        case "в":
         case "d":
             keys.d.pressed = true;
             break;
@@ -39,12 +42,15 @@ window.addEventListener("keydown", (event) => {
 
 window.addEventListener("keyup", (event) => {
     switch (event.key) {
+        case "ц":
         case "w":
             keys.w.pressed = false;
             break;
+        case "ф": 
         case "a":
             keys.a.pressed = false;
             break;
+        case "в":
         case "d":
             keys.d.pressed = false;
             break;

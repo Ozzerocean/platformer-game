@@ -12,6 +12,7 @@ class Sprite {
         this.frameRate = frameRate;
         this.currentFrame = 0;
         this.elapsedFrame = 0;
+        this.defaultFrameBuffer = 7;
         this.frameBuffer = frameBuffer;
         this.animations = animations;
         this.loop = loop;
@@ -73,8 +74,8 @@ class Sprite {
 
         if (this.currentAnimation?.onComplete) {
             if (this.currentFrame === this.frameRate - 1 && !this.currentAnimation.isActive) {
-                this.currentAnimation.onComplete();
                 this.currentAnimation.isActive = true;
+                this.currentAnimation.onComplete();
             }
         }
      }
