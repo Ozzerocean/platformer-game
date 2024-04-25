@@ -7,7 +7,8 @@ class Unit extends Sprite {
             y: 0
         }
         
-        this.gravity = 1;
+        this.isFalling = false;
+        this.gravity = 0.4;
         this.collisionBlocks = collisionBlocks;
     }
 
@@ -21,8 +22,8 @@ class Unit extends Sprite {
         this.updateHitbox();
         this.checkVerticalCollisions();
 
-        c.fillStyle = 'rgba(255, 0, 0, 0.3)' 
-        c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+        // c.fillStyle = 'rgba(255, 0, 0, 0.3)' 
+        // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
     }
 
     switchSprite(name) {
@@ -104,7 +105,7 @@ class Unit extends Sprite {
     }
 
     applyGravity() {
-        if (this.velocity.y < 10) {
+        if (this.velocity.y < 8) {
             this.velocity.y += this.gravity;
         }
         this.position.y += this.velocity.y;

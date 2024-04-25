@@ -73,7 +73,7 @@ class Sprite {
         }
 
         if (this.currentAnimation?.onComplete) {
-            if (this.currentFrame === this.frameRate - 1 && !this.currentAnimation.isActive) {
+            if (this.currentFrame === this.frameRate - 1 && this.elapsedFrame % this.frameBuffer == 0 && !this.currentAnimation.isActive) {
                 this.currentAnimation.isActive = true;
                 this.currentAnimation.onComplete();
             }

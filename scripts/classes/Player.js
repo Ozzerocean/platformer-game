@@ -65,6 +65,52 @@ class Player extends Unit {
                     pigs.forEach((pig) => pig.checkDamage());
                 }
             },
+            jumpLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/jumpLeft.png'
+            },
+            jumpRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/jumpRight.png'
+            },
+            fallLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/fallLeft.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            fallRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/fallRight.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            groundLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/groundLeft.png',
+                onComplete: () => {
+                    this.preventInput = false;
+                    this.isFalling = false;
+                    this.handleInput(keys);
+                }
+            },
+            groundRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/groundRight.png',
+                onComplete: () => {
+                    this.preventInput = false;
+                    this.isFalling = false;
+                    this.handleInput(keys);
+                }
+            },
         }, 
         loop, 
         autoplay
@@ -92,10 +138,10 @@ class Player extends Unit {
 
         this.updateDamagebox();
 
-        c.fillStyle = 'rgba(255, 0, 0, 0.3)';
-        c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
-        c.fillStyle = 'rgba(0, 0, 255, 0.3)';
-        c.fillRect(player.damagebox.position.x, player.damagebox.position.y, player.damagebox.width, player.damagebox.height);
+        // c.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
+        // c.fillStyle = 'rgba(0, 0, 255, 0.3)';
+        // c.fillRect(player.damagebox.position.x, player.damagebox.position.y, player.damagebox.width, player.damagebox.height);
     }
 
 
@@ -132,18 +178,65 @@ class Player extends Unit {
         if (player.currentAnimation) player.currentAnimation.isActive = false;
 
         this.velocity.x = 0;
-        if (keys.d.pressed) {
-            this.velocity.x = 3;
-            this.switchSprite('runRight');
-            this.lastDirection = 'right'
-        } else if (keys.a.pressed) {
-            this.velocity.x = -3;
-            this.lastDirection = 'left'
-            this.switchSprite('runLeft');
-        } else {
-            if (this.lastDirection === 'right') this.switchSprite('idleRight')
-            else this.switchSprite('idleLeft');
+
+        if (this.velocity.y == 0) {
+            if (this.isFalling) {
+                if (keys.d.pressed) {
+                    this.velocity.x = 3;
+                    this.switchSprite('groundRight');
+                    this.lastDirection = 'right'
+                } else if (keys.a.pressed) {
+                    this.velocity.x = -3;
+                    this.lastDirection = 'left'
+                    this.switchSprite('groundLeft');
+                } else {
+                    if (this.lastDirection === 'right') this.switchSprite('groundRight')
+                    else this.switchSprite('groundLeft');
+                }
+
+                return;
+            }
+
+            if (keys.d.pressed) {
+                this.velocity.x = 3;
+                this.switchSprite('runRight');
+                this.lastDirection = 'right'
+            } else if (keys.a.pressed) {
+                this.velocity.x = -3;
+                this.lastDirection = 'left'
+                this.switchSprite('runLeft');
+            } else {
+                if (this.lastDirection === 'right') this.switchSprite('idleRight')
+                else this.switchSprite('idleLeft');
+            }
+        } else if (this.velocity.y < 0) {
+            if (keys.d.pressed) {
+                this.velocity.x = 3;
+                this.switchSprite('jumpRight');
+                this.lastDirection = 'right'
+            } else if (keys.a.pressed) {
+                this.velocity.x = -3;
+                this.lastDirection = 'left'
+                this.switchSprite('jumpLeft');
+            } else {
+                if (this.lastDirection === 'right') this.switchSprite('jumpRight')
+                else this.switchSprite('jumpLeft');
+            }
+        } else if (this.velocity.y > 0) {
+            if (keys.d.pressed) {
+                this.velocity.x = 3;
+                this.switchSprite('fallRight');
+                this.lastDirection = 'right'
+            } else if (keys.a.pressed) {
+                this.velocity.x = -3;
+                this.lastDirection = 'left'
+                this.switchSprite('fallLeft');
+            } else {
+                if (this.lastDirection === 'right') this.switchSprite('fallRight')
+                else this.switchSprite('fallLeft');
+            }
         }
+        
     }
 
     updateHitbox() {
