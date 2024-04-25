@@ -7,6 +7,8 @@ class Unit extends Sprite {
             y: 0
         }
         
+        this.currentFrame = Math.floor(Math.random() * this.frameRate)
+        this.elapsedFrame = Math.floor(Math.random() * this.frameBuffer);
         this.isFalling = false;
         this.gravity = 0.4;
         this.collisionBlocks = collisionBlocks;

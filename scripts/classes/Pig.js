@@ -9,19 +9,16 @@ class Pig extends Unit {
         animations = {
             idleRight: {
                 frameRate: 11,
-                frameBuffer: 7,
                 loop: true,
                 imageSrc: './img/pigs/idleRight.png'
             },
             idleLeft: {
                 frameRate: 11,
-                frameBuffer: 7,
                 loop: true,
                 imageSrc: './img/pigs/idleLeft.png'
             },
             hitLeft: {
                 frameRate: 2,
-                frameBuffer: 7,
                 loop: false,
                 imageSrc: './img/pigs/hitLeft.png',
                 onComplete: () => {
@@ -33,7 +30,6 @@ class Pig extends Unit {
             },
             hitRight: {
                 frameRate: 2,
-                frameBuffer: 7,
                 loop: false,
                 imageSrc: './img/pigs/hitRight.png',
                 onComplete: () => {
@@ -45,7 +41,6 @@ class Pig extends Unit {
             },
             deadLeft: {
                 frameRate: 4,
-                frameBuffer: 7,
                 loop: false,
                 imageSrc: './img/pigs/deadLeft.png',
                 onComplete: () => {
@@ -59,7 +54,6 @@ class Pig extends Unit {
             },
             deadRight: {
                 frameRate: 4,
-                frameBuffer: 7,
                 loop: false,
                 imageSrc: './img/pigs/deadRight.png',
                 onComplete: () => {

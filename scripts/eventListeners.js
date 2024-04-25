@@ -4,6 +4,8 @@ window.addEventListener("keydown", (event) => {
         case " ":
             player.preventInput = true;
 
+            player.getDamage();
+
             if (player.lastDirection === "right") player.switchSprite('attackRight')
             else if (player.lastDirection === "left") player.switchSprite('attackLeft');
             

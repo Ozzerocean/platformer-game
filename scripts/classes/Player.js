@@ -121,7 +121,12 @@ class Player extends Unit {
             y: 64 * 4
         }
 
+        this.health = 3;
         this.lastDirection = 'right';
+    }
+
+    getDamage() {
+        if (this.health > 0) this.health--;
     }
 
     update() {

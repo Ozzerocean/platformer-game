@@ -52,7 +52,6 @@ let levels = {
                     lastDirection: 'left',
                     imageSrc: './img/pigs/idleLeft.png',
                     frameRate: 11,
-                    frameBuffer: 7,
                 }),
                 new Pig({
                     collisionBlocks,
@@ -63,7 +62,6 @@ let levels = {
                     lastDirection: 'right',
                     imageSrc: './img/pigs/idleRight.png',
                     frameRate: 11,
-                    frameBuffer: 7,
                 })
             ]
         }
@@ -138,11 +136,19 @@ let levels = {
     }
 }
 
-
 const player = new Player({ 
     imageSrc: './img/king/idleRight.png',
     frameRate: 11,
 });
+
+const healthbar = new HealthBar({
+    position: {
+        x: 30,
+        y: 20
+    },
+    imageSrc: './img/healthBar.png'
+})
+healthbar.initHearts();
 
 const keys = {
     w: {
@@ -169,6 +175,13 @@ function animate() {
     // collisionBlocks.forEach((collisionBlock) => {
     //     collisionBlock.draw();
     // })
+
+    healthbar.draw();
+    healthbar.updateHearts();
+
+    healthbar.hearts.forEach((heart) => {
+        heart.draw()
+    })
 
     doors.forEach((door) => {
         door.draw();
