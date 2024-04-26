@@ -1,8 +1,14 @@
-const canvas = document.querySelector('canvas');
+const canvas = document.querySelector('.canvas');
 const c = canvas.getContext('2d');
+
+const shell = document.querySelector('.shell');
+const s = shell.getContext('2d');
 
 canvas.width = 64 * 16;
 canvas.height = 64 * 9;
+
+shell.width = window.innerWidth;
+shell.height = window.innerHeight
 
 let parsedCollisions;
 let collisionBlocks;
@@ -168,8 +174,15 @@ const overlay = {
 
 function animate() {
     window.requestAnimationFrame(animate);
-    c.fillStyle = 'white';
-    c.fillRect(0, 0, canvas.width, canvas.height);
+
+    s.fillStyle = 'rgb(63, 56, 81)';
+    s.fillRect(0, 0, shell.width, shell.height)
+
+    s.save();
+    s.globalAlpha = overlay.opacity;
+    s.fillStyle = 'black';
+    s.fillRect(0, 0, shell.width, shell.height)
+    s.restore();
 
     background.draw();
     // collisionBlocks.forEach((collisionBlock) => {

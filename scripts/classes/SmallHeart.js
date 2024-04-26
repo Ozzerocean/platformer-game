@@ -40,7 +40,7 @@ class SmallHeart extends Sprite {
             height: this.height
         }    
 
-        c.drawImage(
+        s.drawImage(
             this.image,
             cropbox.position.x,
             cropbox.position.y,

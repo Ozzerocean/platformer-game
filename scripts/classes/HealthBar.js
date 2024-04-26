@@ -57,7 +57,7 @@ class HealthBar extends Sprite {
 
         
 
-        c.drawImage(
+        s.drawImage(
             this.image,
             cropbox.position.x,
             cropbox.position.y,

@@ -35,11 +35,12 @@ class Player extends Unit {
                         onComplete: () => {
                             level++;
                             if (level === 4) level = 1;
-                            console.log(level)
                             levels[level].init();
+
                             player.switchSprite('idleRight');
                             player.preventInput = false;
                             player.preventAnimation = false;
+                            
                             gsap.to(overlay, {
                                 opacity: 0
                             })
@@ -290,7 +291,7 @@ class Player extends Unit {
                     else this.switchSprite('groundLeft');
                 }
 
-                return;
+                return; 
             } 
 
             if (keys.d.pressed) {

@@ -60,3 +60,8 @@ window.addEventListener("keyup", (event) => {
             break;
     }
 });
+
+window.addEventListener('resize', () => {
+    shell.width = window.innerWidth;
+    shell.height = window.innerHeight
+}, false);
