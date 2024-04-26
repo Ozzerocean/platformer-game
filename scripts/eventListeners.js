@@ -1,10 +1,9 @@
 window.addEventListener("keydown", (event) => {
     if (player.preventInput) return;
     switch (event.key) {
-        case " ":
-            player.preventInput = true;
-
-            player.getDamage();
+        case " ": 
+            if (player.isHit) return;
+            player.preventAnimation = true;
 
             if (player.lastDirection === "right") player.switchSprite('attackRight')
             else if (player.lastDirection === "left") player.switchSprite('attackLeft');
@@ -23,6 +22,7 @@ window.addEventListener("keydown", (event) => {
                     player.velocity.x = 0;
                     player.velocity.y = 0;
                     player.preventInput = true;
+                    player.preventAnimation = true;
                     player.switchSprite('doorIn');
                     door.play()
                     return;

@@ -18,7 +18,7 @@ class SmallHeart extends Sprite {
                 loop: false,
                 imageSrc: './img/smallHeart/hit.png',
                 onComplete: () => {
-                    
+                    healthbar.hearts.splice(-1, 1);
                 }
             },
         }

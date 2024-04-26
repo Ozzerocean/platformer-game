@@ -200,6 +200,10 @@ function animate() {
     player.draw();
     player.update();
 
+    pigs.forEach((pig) => {
+        pig.checkAttackOpportunity();
+    })
+
     c.save();
     c.globalAlpha = overlay.opacity;
     c.fillStyle = 'black';
