@@ -5,6 +5,7 @@ window.addEventListener("keydown", (event) => {
             if (player.isHit) return;
             player.preventAnimation = true;
 
+            pigs.forEach((pig) => pig.checkDamage());
             if (player.lastDirection === "right") player.switchSprite('attackRight')
             else if (player.lastDirection === "left") player.switchSprite('attackLeft');
             

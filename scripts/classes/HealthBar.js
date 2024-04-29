@@ -1,5 +1,11 @@
 class HealthBar extends Sprite {
-    constructor({ position, imageSrc }) {
+    constructor({ 
+        position = {
+            x: 30,
+            y: 20
+        },
+        imageSrc = './img/healthBar.png' 
+    }) {
         super({ position, imageSrc });
 
         this.heartsPosition = [
@@ -17,7 +23,7 @@ class HealthBar extends Sprite {
             },
         ]
 
-        this.hearts = []
+        this.hearts = [];
     }
 
     initHearts() {
@@ -30,17 +36,23 @@ class HealthBar extends Sprite {
 
     updateHearts() {
         if (player.health < this.hearts.length) {
-            for (
-                let i = player.health;
-                i < this.hearts.length;
-                i++
-            ) {
+            for (let i = player.health; i < this.hearts.length; i++) {
                 if (!this.hearts[i].isHit) {
                     // this.hearts[i].isHit = true;
                     this.hearts[i].switchSprite('hit');
                 } 
             }
+        } else if (player.health > this.hearts.length) {
+            for (let i = this.hearts.length; i < player.health; i++) {
+                this.hearts.push(new SmallHeart({
+                    position: this.heartsPosition[i]
+                }))
+            }
         }
+
+        this.hearts.forEach((heart) => {
+            heart.draw()
+        })
     }
 
     draw() {
@@ -65,11 +77,12 @@ class HealthBar extends Sprite {
             cropbox.height,
             this.position.x, 
             this.position.y,
-            this.width * 2,
-            this.height * 2
+            this.width,
+            this.height
         );
         
 
         this.updateFrames();
+        this.updateHearts();
     }
 }

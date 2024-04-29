@@ -1,8 +1,8 @@
 class Player extends Unit {
     constructor({ 
         collisionBlocks = [],
-        imageSrc, 
-        frameRate, 
+        imageSrc = './img/king/idleRight.png', 
+        frameRate = 11, 
         frameBuffer, 
         animations = {
             idleRight: {
@@ -55,7 +55,6 @@ class Player extends Unit {
                 onComplete: () => {
                     this.preventAnimation = false;
                     this.handleInput(keys);
-                    pigs.forEach((pig) => pig.checkDamage());
                 }
             },
             attackLeft: {
@@ -65,7 +64,6 @@ class Player extends Unit {
                 onComplete: () => {
                     this.preventAnimation = false;
                     this.handleInput(keys);
-                    pigs.forEach((pig) => pig.checkDamage());
                 }
             },
             jumpLeft: {

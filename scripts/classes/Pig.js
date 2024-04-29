@@ -195,6 +195,7 @@ class Pig extends Unit {
     }
 
     draw() {
+        if (this.isDead) return;
         if(!this.loaded) return;
 
         const cropbox = {

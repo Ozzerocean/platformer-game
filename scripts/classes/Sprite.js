@@ -28,7 +28,7 @@ class Sprite {
         }
     }
 
-    draw() {
+    draw(canvas = c, scale = 1) {
         if(!this.loaded) return;
 
         const cropbox = {
@@ -42,7 +42,7 @@ class Sprite {
 
         
 
-        c.drawImage(
+        canvas.drawImage(
             this.image,
             cropbox.position.x,
             cropbox.position.y,
@@ -50,8 +50,8 @@ class Sprite {
             cropbox.height,
             this.position.x, 
             this.position.y,
-            this.width,
-            this.height
+            this.width * scale,
+            this.height * scale
         );
         
 

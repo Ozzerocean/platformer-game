@@ -24,8 +24,8 @@ class Unit extends Sprite {
         this.updateHitbox();
         this.checkVerticalCollisions();
 
-        // c.fillStyle = 'rgba(255, 0, 0, 0.3)' 
-        // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
+        c.fillStyle = 'rgba(255, 0, 0, 0.3)' 
+        c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
     }
 
     switchSprite(name) {
@@ -46,11 +46,11 @@ class Unit extends Sprite {
     updateHitbox() {
         this.hitbox = {
             position: {
-                x: this.position.x + 59,
-                y: this.position.y + 34
+                x: this.position.x,
+                y: this.position.y
             },
-            width: 45,
-            height: 53
+            width: this.width,
+            height: this.height
         }
     }
 

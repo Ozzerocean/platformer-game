@@ -15,6 +15,7 @@ let collisionBlocks;
 let background;
 let doors;
 let pigs;
+let items;
 
 let level = 1;
 let levels = {
@@ -48,6 +49,7 @@ let levels = {
                     autoplay: false,
                 })
             ];
+
             pigs = [
                 new Pig({
                     collisionBlocks,
@@ -69,7 +71,24 @@ let levels = {
                     imageSrc: './img/pigs/idleRight.png',
                     frameRate: 11,
                 })
-            ]
+            ];
+
+            items = [
+                new BigHeart({
+                    collisionBlocks,
+                    position: {
+                        x: 64 * 9,
+                        y: 64 * 3
+                    },
+                }),
+                new Diamond({
+                    collisionBlocks,
+                    position: {
+                        x: 64 * 11,
+                        y: 64 * 3
+                    },
+                })
+            ];
         }
     },
     2: {
@@ -104,6 +123,7 @@ let levels = {
             ];
 
             pigs = [];
+            items = [];
         }
     },
     3: {
@@ -138,23 +158,18 @@ let levels = {
             ];
 
             pigs = [];
+            items = [];
         }
     }
 }
 
-const player = new Player({ 
-    imageSrc: './img/king/idleRight.png',
-    frameRate: 11,
-});
+const player = new Player({});
 
-const healthbar = new HealthBar({
-    position: {
-        x: 30,
-        y: 20
-    },
-    imageSrc: './img/healthBar.png'
-})
+const healthbar = new HealthBar({});
 healthbar.initHearts();
+
+const diamondbar = new DiamondBar({});
+diamondbar.initNumbers();
 
 const keys = {
     w: {
@@ -190,21 +205,17 @@ function animate() {
     // })
 
     healthbar.draw();
-    healthbar.updateHearts();
-
-    healthbar.hearts.forEach((heart) => {
-        heart.draw()
-    })
+    diamondbar.draw();
 
     doors.forEach((door) => {
         door.draw();
     });
 
-    pigs.forEach((pig, index) => {
-        if (pig.isDead) {
-            pigs.splice(index, 1);
-        }
+    items.forEach((item) => {
+        item.draw();
+    })
 
+    pigs.forEach((pig, index) => {
         pig.update();
         pig.draw();
     });
