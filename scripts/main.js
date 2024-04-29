@@ -43,7 +43,7 @@ let levels = {
                         x: 764,
                         y: 272
                     },
-                    imageSrc: './img/doorOpen.png',
+                    imageSrc: './img/door/opening.png',
                     frameRate: 5,
                     loop: false,
                     autoplay: false,
@@ -115,7 +115,7 @@ let levels = {
                         x: 772,
                         y: 336
                     },
-                    imageSrc: './img/doorOpen.png',
+                    imageSrc: './img/door/opening.png',
                     frameRate: 5,
                     loop: false,
                     autoplay: false,
@@ -150,7 +150,7 @@ let levels = {
                         x: 176,
                         y: 336
                     },
-                    imageSrc: './img/doorOpen.png',
+                    imageSrc: './img/door/opening.png',
                     frameRate: 5,
                     loop: false,
                     autoplay: false,
@@ -211,10 +211,6 @@ function animate() {
         door.draw();
     });
 
-    items.forEach((item) => {
-        item.draw();
-    })
-
     pigs.forEach((pig, index) => {
         pig.update();
         pig.draw();
@@ -223,6 +219,10 @@ function animate() {
     player.handleInput(keys);
     player.draw();
     player.update();
+
+    items.forEach((item) => {
+        item.draw();
+    })
 
     pigs.forEach((pig) => {
         pig.checkAttackOpportunity();

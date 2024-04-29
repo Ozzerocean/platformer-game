@@ -234,34 +234,6 @@ class Player extends Unit {
         // c.fillRect(player.damagebox.position.x, player.damagebox.position.y, player.damagebox.width, player.damagebox.height);
     }
 
-
-    draw() {
-        if(!this.loaded) return;
-
-        const cropbox = {
-            position: {
-                x: this.width * this.currentFrame,
-                y: 0
-            },
-            width: this.width,
-            height: this.height
-        }
-
-        c.drawImage(
-            this.image,
-            cropbox.position.x,
-            cropbox.position.y,
-            cropbox.width,
-            cropbox.height,
-            this.position.x, 
-            this.position.y,
-            this.width * 2,
-            this.height * 2
-        );
-
-        this.updateFrames();
-    }
-
     handleInput(keys) {
         this.velocity.x = 0;
 

@@ -217,8 +217,8 @@ class Pig extends Unit {
             cropbox.height,
             this.position.x, 
             this.position.y,
-            this.width * 2,
-            this.height * 2
+            this.width,
+            this.height
         );
         c.restore();
 
