@@ -1,5 +1,5 @@
 class Unit extends Sprite {
-    constructor({ collisionBlocks = [], position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay}) {
+    constructor({ collisionObjects = [], position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay}) {
         super({ position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
 
         this.velocity = {
@@ -11,7 +11,7 @@ class Unit extends Sprite {
         this.elapsedFrame = Math.floor(Math.random() * this.frameBuffer);
         this.isFalling = false;
         this.gravity = 0.4;
-        this.collisionBlocks = collisionBlocks;
+        this.collisionObjects = collisionObjects;
     }
 
     update() {
@@ -55,54 +55,58 @@ class Unit extends Sprite {
     }
 
     checkHorizontalCollisions() {
-        for(let i = 0; i < this.collisionBlocks.length; i++) {
-            const collisionBlock = this.collisionBlocks[i];
+        for(let i = 0; i < this.collisionObjects.length; i++) {
+            const collisionObject = this.collisionObjects[i];
 
-            if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
-                this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-                this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height
-            ) {
-                if (this.velocity.x < 0) {
-                    const offset = this.hitbox.position.x - this.position.x;
-                    this.position.x = collisionBlock.position.x + collisionBlock.width - offset + 0.01;
-                    break;
-                }
+            // if (this.hitbox.position.x <= collisionObject.position.x + collisionObject.width &&
+            //     this.hitbox.position.x + this.hitbox.width >= collisionObject.position.x &&
+            //     this.hitbox.position.y + this.hitbox.height >= collisionObject.position.y &&
+            //     this.hitbox.position.y <= collisionObject.position.y + collisionObject.height
+            // ) {
+            //     if (this.velocity.x < 0) {
+            //         const offset = this.hitbox.position.x - this.position.x;
+            //         this.position.x = collisionObject.position.x + collisionObject.width - offset + 0.01;
+            //         break;
+            //     }
 
-                if (this.velocity.x > 0) {
-                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width;
-                    this.position.x = collisionBlock.position.x - offset - 0.01;
-                    break;
-                }
-            }
+            //     if (this.velocity.x > 0) {
+            //         const offset = this.hitbox.position.x - this.position.x + this.hitbox.width;
+            //         this.position.x = collisionObject.position.x - offset - 0.01;
+            //         break;
+            //     }
+            // }
+
+            if (collisionObject.checkHorizontalCollisions(this)) break;
         }
     }
 
     checkVerticalCollisions() {
-        for(let i = 0; i < this.collisionBlocks.length; i++) {
-            const collisionBlock = this.collisionBlocks[i];
+        for(let i = 0; i < this.collisionObjects.length; i++) {
+            const collisionObject = this.collisionObjects[i];
 
-            if (this.hitbox.position.x <= collisionBlock.position.x + collisionBlock.width &&
-                this.hitbox.position.x + this.hitbox.width >= collisionBlock.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= collisionBlock.position.y &&
-                this.hitbox.position.y <= collisionBlock.position.y + collisionBlock.height
-            ) {
-                if (this.velocity.y < 0) {
-                    this.velocity.y = 0;
+            // if (this.hitbox.position.x <= collisionObject.position.x + collisionObject.width &&
+            //     this.hitbox.position.x + this.hitbox.width >= collisionObject.position.x &&
+            //     this.hitbox.position.y + this.hitbox.height >= collisionObject.position.y &&
+            //     this.hitbox.position.y <= collisionObject.position.y + collisionObject.height
+            // ) {
+            //     if (this.velocity.y < 0) {
+            //         this.velocity.y = 0;
 
-                    const offset = this.hitbox.position.y - this.position.y;
-                    this.position.y = collisionBlock.position.y + collisionBlock.height - offset + 0.01;
-                    break;
-                }
+            //         const offset = this.hitbox.position.y - this.position.y;
+            //         this.position.y = collisionObject.position.y + collisionObject.height - offset + 0.01;
+            //         break;
+            //     }
 
-                if (this.velocity.y > 0) {
-                    this.velocity.y = 0;
+            //     if (this.velocity.y > 0) {
+            //         this.velocity.y = 0;
 
-                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
-                    this.position.y = collisionBlock.position.y - offset - 0.01;
-                    break;
-                }
-            }
+            //         const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
+            //         this.position.y = collisionObject.position.y - offset - 0.01;
+            //         break;
+            //     }
+            // }
+
+            if (collisionObject.checkVerticalCollisions(this)) break;
         }
     }
 

@@ -1,6 +1,6 @@
 class Diamond extends Unit {
     constructor({ 
-        collisionBlocks = [],
+        collisionObjects = [],
         position,
         imageSrc = './img/diamond/idle.png', 
         frameRate = 14, 
@@ -24,7 +24,7 @@ class Diamond extends Unit {
             },
         },
     }) {
-        super({ collisionBlocks, position, imageSrc, frameRate, frameBuffer, animations });
+        super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations });
 
         this.isInteracted = false;
         this.isCollected = false;

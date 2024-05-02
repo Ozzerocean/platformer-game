@@ -1,6 +1,6 @@
 class BigHeart extends Unit {
     constructor({ 
-        collisionBlocks = [],
+        collisionObjects = [],
         position,
         imageSrc = './img/bigHeart/idle.png', 
         frameRate = 12, 
@@ -22,7 +22,7 @@ class BigHeart extends Unit {
             },
         },
     }) {
-        super({ collisionBlocks, position, imageSrc, frameRate, frameBuffer, animations });
+        super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations });
 
         this.isInteracted = false;
         this.isCollected = false;

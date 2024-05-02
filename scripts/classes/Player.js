@@ -1,6 +1,6 @@
 class Player extends Unit {
     constructor({ 
-        collisionBlocks = [],
+        collisionObjects = [],
         imageSrc = './img/king/idleRight.png', 
         frameRate = 11, 
         frameBuffer, 
@@ -34,7 +34,7 @@ class Player extends Unit {
                         opacity: 1,
                         onComplete: () => {
                             level++;
-                            if (level === 4) level = 1;
+                            if (level === 1) level = 0;
                             levels[level].init();
 
                             player.switchSprite('idleRight');
@@ -186,7 +186,7 @@ class Player extends Unit {
         loop, 
         autoplay
     }) {
-        super({ collisionBlocks, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
+        super({ collisionObjects, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
         this.position = {
             x: 64 * 3,
             y: 64 * 4

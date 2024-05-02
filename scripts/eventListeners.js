@@ -31,7 +31,7 @@ window.addEventListener("keydown", (event) => {
             }
 
             if (player.velocity.y == 0) {
-                player.velocity.y = -8.4;
+                player.velocity.y = -10.5;
             }
             break;
         case "ф": 

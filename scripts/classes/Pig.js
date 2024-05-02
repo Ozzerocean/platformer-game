@@ -1,6 +1,6 @@
 class Pig extends Unit {
     constructor({ 
-        collisionBlocks = [], 
+        collisionObjects = [], 
         position,
         lastDirection, 
         imageSrc, 
@@ -87,7 +87,7 @@ class Pig extends Unit {
         loop, 
         autoplay
     }) {
-        super({ collisionBlocks, position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
+        super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
 
         this.isHit = false;
         this.idDying = false;
