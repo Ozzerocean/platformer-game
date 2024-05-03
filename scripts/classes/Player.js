@@ -248,6 +248,8 @@ class Player extends Unit {
         }
 
         this.toJump = false;
+        this.toAttack = false;
+        this.lastAttackTime = Date.now();
 
         this.health = 3;
         this.isHit = false;
@@ -302,6 +304,23 @@ class Player extends Unit {
                     this.velocity.y = -10.5;
                 }
                 this.toJump = false;
+            }
+
+            if (this.toAttack) {
+                const now = Date.now();
+                if (now - this.pressAttackTime < 150) {
+                    if (now - player.lastAttackTime > 300) {
+                        this.toAttack = false;
+                        player.lastAttackTime = now;
+                        player.preventAnimation = true;
+
+                        pigs.forEach((pig) => pig.checkDamage());
+                        if (player.lastDirection === "right") player.switchSprite('attackRight')
+                        else if (player.lastDirection === "left") player.switchSprite('attackLeft');
+                    }
+                } else {
+                    this.toAttack = false;
+                }
             }
 
             if (keys.d.pressed) this.velocity.x = 3;

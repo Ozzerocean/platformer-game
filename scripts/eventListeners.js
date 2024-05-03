@@ -4,14 +4,16 @@ window.addEventListener("keydown", (event) => {
         case " ": 
             if (player.isHit) return;
 
-            let now = Date.now();
-            if (now - player.lastAttackTime < 300) return;
+            player.toAttack = true;
+            player.pressAttackTime = Date.now();
+
+            // if (now - player.lastAttackTime < 300) return;
             
-            player.lastAttackTime = Date.now();
-            player.preventAnimation = true;
-            pigs.forEach((pig) => pig.checkDamage());
-            if (player.lastDirection === "right") player.switchSprite('attackRight')
-            else if (player.lastDirection === "left") player.switchSprite('attackLeft');
+            // player.lastAttackTime = Date.now();
+            // player.preventAnimation = true;
+            // pigs.forEach((pig) => pig.checkDamage());
+            // if (player.lastDirection === "right") player.switchSprite('attackRight')
+            // else if (player.lastDirection === "left") player.switchSprite('attackLeft');
             
             break;
         case "ц":
