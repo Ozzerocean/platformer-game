@@ -18,222 +18,360 @@ let pigs;
 let items;
 
 let level = 0;
-let levels = {
-    0: {
-        init: () => {
-            parsedCollisions = collisionsLevel0.parse2D();
-            collisionObjects = parsedCollisions.createObjectsFrom2D();
-            if (player.currentAnimation) player.currentAnimation.isActive = false;
-            player.collisionObjects = collisionObjects;
-            player.position.x = 64 * 2.5;
-            player.position.y = 64 * 2;
-            player.lastDirection = "right"
-
-            background = new Sprite({
+let levels = [
+    new Level({
+        collisions: collisionsLevel0,
+        background: new Sprite({
+            position: {
+                x: 0,
+                y: 0
+            },
+            imageSrc: './img/backgroundLevel0.png'
+        }),
+        doors: [
+            new Sprite({
                 position: {
-                    x: 0,
-                    y: 0
+                    x: 64 * 3,
+                    y: 64 * 11 - 112
                 },
-                imageSrc: './img/backgroundLevel0.png'
-            });
+                imageSrc: './img/door/opening.png',
+                frameRate: 5,
+                loop: false,
+                autoplay: false,
+            })
+        ],
+        pigs: [
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 64 * 8,
+                    y: 64 * 2
+                },
+                lastDirection: 'left',
+                imageSrc: './img/pigs/idleLeft.png',
+                frameRate: 11,
+            }),
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 80,
+                    y: 64 * 3
+                },
+                lastDirection: 'right',
+                imageSrc: './img/pigs/idleRight.png',
+                frameRate: 11,
+            })
+        ],
+        items: [
+            new BigHeart({
+                collisionObjects,
+                position: {
+                    x: 64 * 12,
+                    y: 64 * 10
+                },
+            }),
+            new Diamond({
+                collisionObjects,
+                position: {
+                    x: 64 * 7,
+                    y: 64 * 10
+                },
+            })
+        ]
+    }),
+    new Level({
+        collisions: collisionsLevel0,
+        background: new Sprite({
+            position: {
+                x: 0,
+                y: 0
+            },
+            imageSrc: './img/backgroundLevel0.png'
+        }),
+        doors: [
+            new Sprite({
+                position: {
+                    x: 64 * 3,
+                    y: 64 * 11 - 112
+                },
+                imageSrc: './img/door/opening.png',
+                frameRate: 5,
+                loop: false,
+                autoplay: false,
+            })
+        ],
+        pigs: [
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 64 * 8,
+                    y: 64 * 2
+                },
+                lastDirection: 'left',
+                imageSrc: './img/pigs/idleLeft.png',
+                frameRate: 11,
+            }),
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 80,
+                    y: 64 * 3
+                },
+                lastDirection: 'right',
+                imageSrc: './img/pigs/idleRight.png',
+                frameRate: 11,
+            })
+        ],
+        items: [
+            new BigHeart({
+                collisionObjects,
+                position: {
+                    x: 64 * 12,
+                    y: 64 * 10
+                },
+            }),
+            new Diamond({
+                collisionObjects,
+                position: {
+                    x: 64 * 7,
+                    y: 64 * 10
+                },
+            })
+        ]
+    })
+];
 
-            doors = [
-                new Sprite({
-                    position: {
-                        x: 64 * 3,
-                        y: 64 * 11 - 112
-                    },
-                    imageSrc: './img/door/opening.png',
-                    frameRate: 5,
-                    loop: false,
-                    autoplay: false,
-                })
-            ];
+// let levels = {
+//     0: {
+//         collisionObjects: [],
+//         background,
+//         doors: [],
+//         pigs: [],
+//         items: [],
 
-            pigs = [
-                new Pig({
-                    collisionObjects,
-                    position: {
-                        x: 64 * 8,
-                        y: 64 * 2
-                    },
-                    lastDirection: 'left',
-                    imageSrc: './img/pigs/idleLeft.png',
-                    frameRate: 11,
-                }),
-                new Pig({
-                    collisionObjects,
-                    position: {
-                        x: 80,
-                        y: 64 * 3
-                    },
-                    lastDirection: 'right',
-                    imageSrc: './img/pigs/idleRight.png',
-                    frameRate: 11,
-                })
-            ];
+//         update: () => {
+//             if (player.currentAnimation) player.currentAnimation.isActive = false;
+//             player.collisionObjects = collisionObjects;
+//             player.position.x = 64 * 2.5;
+//             player.position.y = 64 * 2;
+//             player.lastDirection = "right"
 
-            items = [
-                new BigHeart({
-                    collisionObjects,
-                    position: {
-                        x: 64 * 12,
-                        y: 64 * 10
-                    },
-                }),
-                new Diamond({
-                    collisionObjects,
-                    position: {
-                        x: 64 * 7,
-                        y: 64 * 10
-                    },
-                })
-            ];
-        }
-    },
-    // 1: {
-    //     init: () => {
-    //         parsedCollisions = collisionsLevel1.parse2D();
-    //         collisionObjects = parsedCollisions.createObjectsFrom2D();
-    //         if (player.currentAnimation) player.currentAnimation.isActive = false;
-    //         player.collisionObjects = collisionObjects;
-    //         player.position.x = 64 * 3;
-    //         player.position.y = 64 * 4;
-    //         player.lastDirection = "right"
+//             collisionObjects = this.collisionObjects;
+//             background = this.background;
+//             doors = this.doors;
+//             pigs = this.pigs;
+//             items = this.items;
+//         },
 
-    //         background = new Sprite({
-    //             position: {
-    //                 x: 0,
-    //                 y: 0
-    //             },
-    //             imageSrc: './img/backgroundLevel1.png'
-    //         });
+//         init: () => {
+//             parsedCollisions = collisionsLevel0.parse2D();
+//             this.collisionObjects = parsedCollisions.createObjectsFrom2D();
 
-    //         doors = [
-    //             new Sprite({
-    //                 position: {
-    //                     x: 764,
-    //                     y: 272
-    //                 },
-    //                 imageSrc: './img/door/opening.png',
-    //                 frameRate: 5,
-    //                 loop: false,
-    //                 autoplay: false,
-    //             })
-    //         ];
+//             this.background = new Sprite({
+//                 position: {
+//                     x: 0,
+//                     y: 0
+//                 },
+//                 imageSrc: './img/backgroundLevel0.png'
+//             });
 
-    //         pigs = [
-    //             new Pig({
-    //                 collisionObjects,
-    //                 position: {
-    //                     x: 64 * 7,
-    //                     y: 64 * 3
-    //                 },
-    //                 lastDirection: 'left',
-    //                 imageSrc: './img/pigs/idleLeft.png',
-    //                 frameRate: 11,
-    //             }),
-    //             new Pig({
-    //                 collisionObjects,
-    //                 position: {
-    //                     x: 80,
-    //                     y: 64 * 3
-    //                 },
-    //                 lastDirection: 'right',
-    //                 imageSrc: './img/pigs/idleRight.png',
-    //                 frameRate: 11,
-    //             })
-    //         ];
+//             this.doors = [
+//                 new Sprite({
+//                     position: {
+//                         x: 64 * 3,
+//                         y: 64 * 11 - 112
+//                     },
+//                     imageSrc: './img/door/opening.png',
+//                     frameRate: 5,
+//                     loop: false,
+//                     autoplay: false,
+//                 })
+//             ];
 
-    //         items = [
-    //             new BigHeart({
-    //                 collisionObjects,
-    //                 position: {
-    //                     x: 64 * 9,
-    //                     y: 64 * 3
-    //                 },
-    //             }),
-    //             new Diamond({
-    //                 collisionObjects,
-    //                 position: {
-    //                     x: 64 * 11,
-    //                     y: 64 * 3
-    //                 },
-    //             })
-    //         ];
-    //     }
-    // },
-    // 2: {
-    //     init: () => {
-    //         parsedCollisions = collisionsLevel2.parse2D();
-    //         collisionObjects = parsedCollisions.createObjectsFrom2D();
-    //         if (player.currentAnimation) player.currentAnimation.isActive = false;
-    //         player.collisionObjects = collisionObjects;
-    //         player.position.x = 76;
-    //         player.position.y = 140;
-    //         player.lastDirection = "right"
+//             this.pigs = [
+//                 new Pig({
+//                     collisionObjects,
+//                     position: {
+//                         x: 64 * 8,
+//                         y: 64 * 2
+//                     },
+//                     lastDirection: 'left',
+//                     imageSrc: './img/pigs/idleLeft.png',
+//                     frameRate: 11,
+//                 }),
+//                 new Pig({
+//                     collisionObjects,
+//                     position: {
+//                         x: 80,
+//                         y: 64 * 3
+//                     },
+//                     lastDirection: 'right',
+//                     imageSrc: './img/pigs/idleRight.png',
+//                     frameRate: 11,
+//                 })
+//             ];
 
-    //         background = new Sprite({
-    //             position: {
-    //                 x: 0,
-    //                 y: 0
-    //             },
-    //             imageSrc: './img/backgroundLevel2.png'
-    //         });
+//             this.items = [
+//                 new BigHeart({
+//                     collisionObjects,
+//                     position: {
+//                         x: 64 * 12,
+//                         y: 64 * 10
+//                     },
+//                 }),
+//                 new Diamond({
+//                     collisionObjects,
+//                     position: {
+//                         x: 64 * 7,
+//                         y: 64 * 10
+//                     },
+//                 })
+//             ];
+//         }
+//     },
+//     // 1: {
+//     //     init: () => {
+//     //         parsedCollisions = collisionsLevel1.parse2D();
+//     //         collisionObjects = parsedCollisions.createObjectsFrom2D();
+//     //         if (player.currentAnimation) player.currentAnimation.isActive = false;
+//     //         player.collisionObjects = collisionObjects;
+//     //         player.position.x = 64 * 3;
+//     //         player.position.y = 64 * 4;
+//     //         player.lastDirection = "right"
 
-    //         doors = [
-    //             new Sprite({
-    //                 position: {
-    //                     x: 772,
-    //                     y: 336
-    //                 },
-    //                 imageSrc: './img/door/opening.png',
-    //                 frameRate: 5,
-    //                 loop: false,
-    //                 autoplay: false,
-    //             })
-    //         ];
+//     //         background = new Sprite({
+//     //             position: {
+//     //                 x: 0,
+//     //                 y: 0
+//     //             },
+//     //             imageSrc: './img/backgroundLevel1.png'
+//     //         });
 
-    //         pigs = [];
-    //         items = [];
-    //     }
-    // },
-    // 3: {
-    //     init: () => {
-    //         parsedCollisions = collisionsLevel3.parse2D();
-    //         collisionObjects = parsedCollisions.createObjectsFrom2D();
-    //         if (player.currentAnimation) player.currentAnimation.isActive = false;
-    //         player.collisionObjects = collisionObjects;
-    //         player.position.x = 750;
-    //         player.position.y = 160;
-    //         player.lastDirection = "left"
+//     //         doors = [
+//     //             new Sprite({
+//     //                 position: {
+//     //                     x: 764,
+//     //                     y: 272
+//     //                 },
+//     //                 imageSrc: './img/door/opening.png',
+//     //                 frameRate: 5,
+//     //                 loop: false,
+//     //                 autoplay: false,
+//     //             })
+//     //         ];
 
-    //         background = new Sprite({
-    //             position: {
-    //                 x: 0,
-    //                 y: 0
-    //             },
-    //             imageSrc: './img/backgroundLevel3.png'
-    //         });
+//     //         pigs = [
+//     //             new Pig({
+//     //                 collisionObjects,
+//     //                 position: {
+//     //                     x: 64 * 7,
+//     //                     y: 64 * 3
+//     //                 },
+//     //                 lastDirection: 'left',
+//     //                 imageSrc: './img/pigs/idleLeft.png',
+//     //                 frameRate: 11,
+//     //             }),
+//     //             new Pig({
+//     //                 collisionObjects,
+//     //                 position: {
+//     //                     x: 80,
+//     //                     y: 64 * 3
+//     //                 },
+//     //                 lastDirection: 'right',
+//     //                 imageSrc: './img/pigs/idleRight.png',
+//     //                 frameRate: 11,
+//     //             })
+//     //         ];
 
-    //         doors = [
-    //             new Sprite({
-    //                 position: {
-    //                     x: 176,
-    //                     y: 336
-    //                 },
-    //                 imageSrc: './img/door/opening.png',
-    //                 frameRate: 5,
-    //                 loop: false,
-    //                 autoplay: false,
-    //             })
-    //         ];
+//     //         items = [
+//     //             new BigHeart({
+//     //                 collisionObjects,
+//     //                 position: {
+//     //                     x: 64 * 9,
+//     //                     y: 64 * 3
+//     //                 },
+//     //             }),
+//     //             new Diamond({
+//     //                 collisionObjects,
+//     //                 position: {
+//     //                     x: 64 * 11,
+//     //                     y: 64 * 3
+//     //                 },
+//     //             })
+//     //         ];
+//     //     }
+//     // },
+//     // 2: {
+//     //     init: () => {
+//     //         parsedCollisions = collisionsLevel2.parse2D();
+//     //         collisionObjects = parsedCollisions.createObjectsFrom2D();
+//     //         if (player.currentAnimation) player.currentAnimation.isActive = false;
+//     //         player.collisionObjects = collisionObjects;
+//     //         player.position.x = 76;
+//     //         player.position.y = 140;
+//     //         player.lastDirection = "right"
 
-    //         pigs = [];
-    //         items = [];
-    //     }
-    // }
-}
+//     //         background = new Sprite({
+//     //             position: {
+//     //                 x: 0,
+//     //                 y: 0
+//     //             },
+//     //             imageSrc: './img/backgroundLevel2.png'
+//     //         });
+
+//     //         doors = [
+//     //             new Sprite({
+//     //                 position: {
+//     //                     x: 772,
+//     //                     y: 336
+//     //                 },
+//     //                 imageSrc: './img/door/opening.png',
+//     //                 frameRate: 5,
+//     //                 loop: false,
+//     //                 autoplay: false,
+//     //             })
+//     //         ];
+
+//     //         pigs = [];
+//     //         items = [];
+//     //     }
+//     // },
+//     // 3: {
+//     //     init: () => {
+//     //         parsedCollisions = collisionsLevel3.parse2D();
+//     //         collisionObjects = parsedCollisions.createObjectsFrom2D();
+//     //         if (player.currentAnimation) player.currentAnimation.isActive = false;
+//     //         player.collisionObjects = collisionObjects;
+//     //         player.position.x = 750;
+//     //         player.position.y = 160;
+//     //         player.lastDirection = "left"
+
+//     //         background = new Sprite({
+//     //             position: {
+//     //                 x: 0,
+//     //                 y: 0
+//     //             },
+//     //             imageSrc: './img/backgroundLevel3.png'
+//     //         });
+
+//     //         doors = [
+//     //             new Sprite({
+//     //                 position: {
+//     //                     x: 176,
+//     //                     y: 336
+//     //                 },
+//     //                 imageSrc: './img/door/opening.png',
+//     //                 frameRate: 5,
+//     //                 loop: false,
+//     //                 autoplay: false,
+//     //             })
+//     //         ];
+
+//     //         pigs = [];
+//     //         items = [];
+//     //     }
+//     // }
+// }
 
 const player = new Player({});
 
@@ -307,5 +445,5 @@ function animate() {
     c.restore();
 }
 
-levels[level].init();
+levels[level].update();
 animate();

@@ -28,21 +28,6 @@ class Unit extends Sprite {
         // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height)
     }
 
-    switchSprite(name) {
-        if (this.image === this.animations[name].image) return;
-        this.currentFrame = 0;
-        this.elapsedFrame = 0;
-        this.image = this.animations[name].image;
-        this.frameRate = this.animations[name].frameRate;
-
-        if (this.animations[name].frameBuffer) this.frameBuffer = this.animations[name].frameBuffer
-        else this.frameBuffer = this.defaultFrameBuffer;
-        
-        this.loop = this.animations[name].loop;
-        this.currentAnimation = this.animations[name];
-        this.currentAnimation.isActive = false;
-    }
-
     updateHitbox() {
         this.hitbox = {
             position: {

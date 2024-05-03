@@ -28,6 +28,21 @@ class Sprite {
         }
     }
 
+    switchSprite(name) {
+        if (this.image === this.animations[name].image) return;
+        this.currentFrame = 0;
+        this.elapsedFrame = 0;
+        this.image = this.animations[name].image;
+        this.frameRate = this.animations[name].frameRate;
+
+        if (this.animations[name].frameBuffer) this.frameBuffer = this.animations[name].frameBuffer
+        else this.frameBuffer = this.defaultFrameBuffer;
+        
+        this.loop = this.animations[name].loop;
+        this.currentAnimation = this.animations[name];
+        this.currentAnimation.isActive = false;
+    }
+
     draw(canvas = c, scale = 1) {
         if(!this.loaded) return;
 

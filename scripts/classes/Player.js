@@ -34,8 +34,8 @@ class Player extends Unit {
                         opacity: 1,
                         onComplete: () => {
                             level++;
-                            if (level === 1) level = 0;
-                            levels[level].init();
+                            if (level === 2) level = 0;
+                            levels[level].update();
 
                             player.switchSprite('idleRight');
                             player.preventInput = false;
@@ -142,7 +142,7 @@ class Player extends Unit {
                     gsap.to(overlay, {
                         opacity: 1,
                         onComplete: () => {
-                            levels[level].init();
+                            levels[level].update();
 
                             this.isDying = false;
                             this.preventInput = false;
@@ -166,7 +166,7 @@ class Player extends Unit {
                     gsap.to(overlay, {
                         opacity: 1,
                         onComplete: () => {
-                            levels[level].init();
+                            levels[level].update();
 
                             this.isDying = false;
                             this.preventInput = false;
