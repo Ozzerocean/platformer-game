@@ -3,8 +3,12 @@ window.addEventListener("keydown", (event) => {
     switch (event.key) {
         case " ": 
             if (player.isHit) return;
-            player.preventAnimation = true;
 
+            let now = Date.now();
+            if (now - player.lastAttackTime < 300) return;
+            
+            player.lastAttackTime = Date.now();
+            player.preventAnimation = true;
             pigs.forEach((pig) => pig.checkDamage());
             if (player.lastDirection === "right") player.switchSprite('attackRight')
             else if (player.lastDirection === "left") player.switchSprite('attackLeft');
@@ -24,15 +28,21 @@ window.addEventListener("keydown", (event) => {
                     player.velocity.y = 0;
                     player.preventInput = true;
                     player.preventAnimation = true;
-                    player.switchSprite('doorIn');
-                    door.play()
+
+                    doorIn = door;
+                    doorOut = doorIn.toDoor;
+
+                    if (player.lastDirection == "right") player.switchSprite('doorInRight')
+                    else if (player.lastDirection == "left") player.switchSprite('doorInLeft');
+
+                    door.switchSprite('opening')
                     return;
                 }
             }
 
-            if (player.velocity.y == 0) {
-                player.velocity.y = -10.5;
-            }
+            player.toJump = true;
+            player.pressJumpTime = Date.now();
+            
             break;
         case "ф": 
         case "a":

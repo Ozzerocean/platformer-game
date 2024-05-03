@@ -25,27 +25,82 @@ class Player extends Unit {
                 loop: true,
                 imageSrc: './img/king/runLeft.png'
             },
-            doorIn: {
+            doorInRight: {
                 frameRate: 8,
                 loop: false,
-                imageSrc: './img/king/doorIn.png',
+                imageSrc: './img/king/doorInRight.png',
                 onComplete: () => {
                     gsap.to(overlay, {
                         opacity: 1,
                         onComplete: () => {
-                            level++;
-                            if (level === 2) level = 0;
+                            level = doorOut.level;
                             levels[level].update();
+                            player.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
+                            player.position.y = doorOut.position.y - 15.01;
 
-                            player.switchSprite('idleRight');
-                            player.preventInput = false;
-                            player.preventAnimation = false;
+                            doorIn.switchSprite('idle');
+
+                            player.switchSprite('doorOutRight');
+                            doorOut.switchSprite('closing');
                             
                             gsap.to(overlay, {
-                                opacity: 0
+                                opacity: 0,
+                                onComplete: () => {
+                                    player.play();
+                                    doorOut.play();
+                                }
                             })
                         }
                     })
+                }
+            },
+            doorInLeft: {
+                frameRate: 8,
+                loop: false,
+                imageSrc: './img/king/doorInLeft.png',
+                onComplete: () => {
+                    gsap.to(overlay, {
+                        opacity: 1,
+                        onComplete: () => {
+                            level = doorOut.level;
+                            levels[level].update();
+                            player.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
+                            player.position.y = doorOut.position.y - 15.01;
+
+                            doorIn.switchSprite('idle');
+
+                            player.switchSprite('doorOutLeft');
+                            doorOut.switchSprite('closing');
+                            
+                            gsap.to(overlay, {
+                                opacity: 0,
+                                onComplete: () => {
+                                    player.play();
+                                    doorOut.play();
+                                }
+                            })
+                        }
+                    })
+                }
+            },
+            doorOutRight: {
+                frameRate: 8,
+                loop: false,
+                autoplay: false,
+                imageSrc: './img/king/doorOutRight.png',
+                onComplete: () => {
+                    player.preventInput = false;
+                    player.preventAnimation = false;
+                }
+            },
+            doorOutLeft: {
+                frameRate: 8,
+                loop: false,
+                autoplay: false,
+                imageSrc: './img/king/doorOutLeft.png',
+                onComplete: () => {
+                    player.preventInput = false;
+                    player.preventAnimation = false;
                 }
             },
             attackRight: {
@@ -192,6 +247,8 @@ class Player extends Unit {
             y: 64 * 4
         }
 
+        this.toJump = false;
+
         this.health = 3;
         this.isHit = false;
         this.isDying = false;
@@ -238,7 +295,14 @@ class Player extends Unit {
         this.velocity.x = 0;
 
         if (!this.preventInput) {
-            if (player.currentAnimation) player.currentAnimation.isActive = false;
+            if (this.currentAnimation) this.currentAnimation.isActive = false;
+
+            if (this.velocity.y == 0 && this.toJump) {
+                if (Date.now() - this.pressJumpTime < 150) {
+                    this.velocity.y = -10.5;
+                }
+                this.toJump = false;
+            }
 
             if (keys.d.pressed) this.velocity.x = 3;
             else if (keys.a.pressed) this.velocity.x = -3;

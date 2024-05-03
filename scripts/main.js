@@ -14,11 +14,15 @@ let parsedCollisions;
 let collisionObjects;
 let background;
 let doors;
+let doorIn;
+let doorOut;
 let pigs;
 let items;
 
-let level = 0;
-let levels = [
+let level = 1;
+let levels = [];
+
+levels.push(
     new Level({
         collisions: collisionsLevel0,
         background: new Sprite({
@@ -29,16 +33,20 @@ let levels = [
             imageSrc: './img/backgroundLevel0.png'
         }),
         doors: [
-            new Sprite({
+            new Door({
                 position: {
                     x: 64 * 3,
                     y: 64 * 11 - 112
                 },
-                imageSrc: './img/door/opening.png',
-                frameRate: 5,
-                loop: false,
-                autoplay: false,
-            })
+                level: 0,
+            }),
+            new Door({
+                position: {
+                    x: 64 * 13,
+                    y: 64 * 11 - 112
+                },
+                level: 0,
+            }),
         ],
         pigs: [
             new Pig({
@@ -66,67 +74,7 @@ let levels = [
             new BigHeart({
                 collisionObjects,
                 position: {
-                    x: 64 * 12,
-                    y: 64 * 10
-                },
-            }),
-            new Diamond({
-                collisionObjects,
-                position: {
-                    x: 64 * 7,
-                    y: 64 * 10
-                },
-            })
-        ]
-    }),
-    new Level({
-        collisions: collisionsLevel0,
-        background: new Sprite({
-            position: {
-                x: 0,
-                y: 0
-            },
-            imageSrc: './img/backgroundLevel0.png'
-        }),
-        doors: [
-            new Sprite({
-                position: {
-                    x: 64 * 3,
-                    y: 64 * 11 - 112
-                },
-                imageSrc: './img/door/opening.png',
-                frameRate: 5,
-                loop: false,
-                autoplay: false,
-            })
-        ],
-        pigs: [
-            new Pig({
-                collisionObjects,
-                position: {
-                    x: 64 * 8,
-                    y: 64 * 2
-                },
-                lastDirection: 'left',
-                imageSrc: './img/pigs/idleLeft.png',
-                frameRate: 11,
-            }),
-            new Pig({
-                collisionObjects,
-                position: {
-                    x: 80,
-                    y: 64 * 3
-                },
-                lastDirection: 'right',
-                imageSrc: './img/pigs/idleRight.png',
-                frameRate: 11,
-            })
-        ],
-        items: [
-            new BigHeart({
-                collisionObjects,
-                position: {
-                    x: 64 * 12,
+                    x: 64 * 15.3,
                     y: 64 * 10
                 },
             }),
@@ -139,7 +87,76 @@ let levels = [
             })
         ]
     })
-];
+);
+
+levels.push(
+    new Level({
+        collisions: collisionsLevel0,
+        background: new Sprite({
+            position: {
+                x: 0,
+                y: 0
+            },
+            imageSrc: './img/backgroundLevel0.png'
+        }),
+        doors: [
+            new Door({
+                position: {
+                    x: 64 * 3,
+                    y: 64 * 11 - 112
+                },
+                level: 1,
+                toDoor: levels[0].doors[1]
+            }),
+            new Door({
+                position: {
+                    x: 64 * 13,
+                    y: 64 * 11 - 112
+                },
+                level: 1,
+                toDoor: levels[0].doors[0]
+            }),
+        ],
+        pigs: [
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 64 * 8,
+                    y: 64 * 2
+                },
+                lastDirection: 'left',
+                imageSrc: './img/pigs/idleLeft.png',
+                frameRate: 11,
+            }),
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 80,
+                    y: 64 * 3
+                },
+                lastDirection: 'right',
+                imageSrc: './img/pigs/idleRight.png',
+                frameRate: 11,
+            })
+        ],
+        items: [
+            new BigHeart({
+                collisionObjects,
+                position: {
+                    x: 64 * 15.3,
+                    y: 64 * 10
+                },
+            }),
+            new Diamond({
+                collisionObjects,
+                position: {
+                    x: 64 * 7,
+                    y: 64 * 10
+                },
+            })
+        ]
+    })
+);
 
 // let levels = {
 //     0: {

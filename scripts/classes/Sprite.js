@@ -37,6 +37,9 @@ class Sprite {
 
         if (this.animations[name].frameBuffer) this.frameBuffer = this.animations[name].frameBuffer
         else this.frameBuffer = this.defaultFrameBuffer;
+
+        if (this.animations[name].autoplay) this.autoplay = this.animations[name].autoplay
+        else this.autoplay = true;
         
         this.loop = this.animations[name].loop;
         this.currentAnimation = this.animations[name];

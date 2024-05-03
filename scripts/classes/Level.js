@@ -20,7 +20,6 @@ class Level {
         player.collisionObjects = this.collisionObjects;
         player.position.x = 64 * 2.5;
         player.position.y = 64 * 2;
-        player.lastDirection = "left"
 
         this.pigs.forEach((pig) => {
             pig.collisionObjects = this.collisionObjects;
