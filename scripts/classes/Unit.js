@@ -6,6 +6,11 @@ class Unit extends Sprite {
             x: 0,
             y: 0
         }
+
+        this.knockbackVelocity = {
+            x: 2,
+            y: -3
+        }
         
         this.currentFrame = Math.floor(Math.random() * this.frameRate)
         this.elapsedFrame = Math.floor(Math.random() * this.frameBuffer);

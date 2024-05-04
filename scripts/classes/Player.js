@@ -174,6 +174,7 @@ class Player extends Unit {
                 onComplete: () => {
                     this.isHit = false;
                     this.preventAnimation = false;
+                    this.preventInput = false;
                     this.handleInput(keys);
                     this.getDamage();
                 }
@@ -185,6 +186,7 @@ class Player extends Unit {
                 onComplete: () => {
                     this.isHit = false;
                     this.preventAnimation = false;
+                    this.preventInput = false;
                     this.handleInput(keys);
                     this.getDamage();
                 }
@@ -294,7 +296,7 @@ class Player extends Unit {
     }
 
     handleInput(keys) {
-        this.velocity.x = 0;
+        if (!this.isHit) this.velocity.x = 0;
 
         if (!this.preventInput) {
             if (this.currentAnimation) this.currentAnimation.isActive = false;
@@ -425,6 +427,11 @@ class Player extends Unit {
             this.isFalling = false;
             this.isHit = true;
             this.preventAnimation = true;
+            this.preventInput = true;
+
+            this.velocity.y = this.knockbackVelocity.y;
+            if (pig.lastDirection == "left") this.velocity.x = -this.knockbackVelocity.x;
+            else if (pig.lastDirection = "right") this.velocity.x = this.knockbackVelocity.x;
             
             if (this.lastDirection === 'left') this.switchSprite('hitLeft') 
             else if (this.lastDirection === 'right') this.switchSprite('hitRight');

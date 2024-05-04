@@ -19,9 +19,11 @@ class Pig extends Unit {
             },
             hitLeft: {
                 frameRate: 2,
+                frameBuffer: 10,
                 loop: false,
                 imageSrc: './img/pigs/hitLeft.png',
                 onComplete: () => {
+                    this.velocity.x = 0;
                     if(!this.isDying) {
                         this.isDying = true;
                         this.switchSprite('deadLeft');
@@ -30,9 +32,11 @@ class Pig extends Unit {
             },
             hitRight: {
                 frameRate: 2,
+                frameBuffer: 10,
                 loop: false,
                 imageSrc: './img/pigs/hitRight.png',
                 onComplete: () => {
+                    this.velocity.x = 0;
                     if(!this.isDying) {
                         this.isDying = true;
                         this.switchSprite('deadRight');
@@ -160,6 +164,16 @@ class Pig extends Unit {
         ) {
             if (this.isDying || this.isHit) return;
             this.isHit = true;
+
+            this.velocity.y = this.knockbackVelocity.y;
+            if (player.lastDirection == 'left') {
+                this.velocity.x =  -this.knockbackVelocity.x;
+                this.lastDirection = 'right'
+            } 
+            else if (player.lastDirection == 'right') {
+                this.velocity.x = this.knockbackVelocity.x;
+                this.lastDirection = 'left'
+            } 
 
             if (this.lastDirection === 'left') this.switchSprite('hitLeft')
             else if (this.lastDirection === 'right') this.switchSprite('hitRight');

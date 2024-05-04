@@ -19,7 +19,7 @@ let doorOut;
 let pigs;
 let items;
 
-let level = 1;
+let level = 0;
 let levels = [];
 
 levels.push(
@@ -68,7 +68,17 @@ levels.push(
                 lastDirection: 'right',
                 imageSrc: './img/pigs/idleRight.png',
                 frameRate: 11,
-            })
+            }),
+            new Pig({
+                collisionObjects,
+                position: {
+                    x: 64 * 10,
+                    y: 64 * 2
+                },
+                lastDirection: 'right',
+                imageSrc: './img/pigs/idleRight.png',
+                frameRate: 11,
+            }),
         ],
         items: [
             new BigHeart({
