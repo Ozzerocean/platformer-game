@@ -168,7 +168,7 @@ class Player extends Unit {
                 }
             },
             hitLeft: {
-                frameRate: 3,
+                frameRate: 2,
                 loop: false,
                 imageSrc: './img/king/hitLeft.png',
                 onComplete: () => {
@@ -180,7 +180,7 @@ class Player extends Unit {
                 }
             },
             hitRight: {
-                frameRate: 3,
+                frameRate: 2,
                 loop: false,
                 imageSrc: './img/king/hitRight.png',
                 onComplete: () => {
@@ -279,12 +279,12 @@ class Player extends Unit {
         this.position.x += this.velocity.x;
 
         this.updateHitbox();
-        this.checkHorizontalPigsCollision(pigs);
+        this.checkHorizontalUnitsCollision();
         this.checkHorizontalCollisions();
 
         this.applyGravity();
         this.updateHitbox();
-        this.checkVerticalPigsCollision(pigs);
+        this.checkVerticalUnitsCollision();
         this.checkVerticalCollisions();
 
         this.updateDamagebox();
@@ -403,7 +403,7 @@ class Player extends Unit {
                     y: this.hitbox.position.y - 28
                 },
                 width: 64 + 25,
-                height: 28 + this.hitbox.height
+                height: 28 + this.hitbox.height + 18
             }
         } else if (this.lastDirection === "left") {
             this.damagebox = {
@@ -412,7 +412,7 @@ class Player extends Unit {
                     y: this.hitbox.position.y - 28
                 },
                 width: 64 + 25,
-                height: 28 + this.hitbox.height
+                height: 28 + this.hitbox.height + 18
             }
         }
     }
@@ -438,7 +438,7 @@ class Player extends Unit {
         }
     }
 
-    checkHorizontalPigsCollision(pigs) {
+    checkHorizontalUnitsCollision() {
         for(let i = 0; i < pigs.length; i++) {
             const pig = pigs[i];
             if (pig.isDying) continue;
@@ -461,9 +461,31 @@ class Player extends Unit {
                 }
             }
         }
+
+        for(let i = 0; i < cannons.length; i++) {
+            const cannon = cannons[i];
+
+            if (this.hitbox.position.x <= cannon.hitbox.position.x + cannon.hitbox.width &&
+                this.hitbox.position.x + this.hitbox.width >= cannon.hitbox.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= cannon.hitbox.position.y &&
+                this.hitbox.position.y <= cannon.hitbox.position.y + cannon.hitbox.height
+            ) {
+                if (this.velocity.x < 0) {
+                    const offset = this.hitbox.position.x - this.position.x;
+                    this.position.x = cannon.hitbox.position.x + cannon.hitbox.width - offset + 0.01;
+                    break;
+                }
+
+                if (this.velocity.x > 0) {
+                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width;
+                    this.position.x = cannon.hitbox.position.x - offset - 0.01;
+                    break;
+                }
+            }
+        }
     }
 
-    checkVerticalPigsCollision(pigs) {
+    checkVerticalUnitsCollision() {
         for(let i = 0; i < pigs.length; i++) {
             const pig = pigs[i];
             if (pig.isDying) continue;
@@ -486,6 +508,32 @@ class Player extends Unit {
 
                     const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
                     this.position.y = pig.hitbox.position.y - offset - 0.01;
+                    break;
+                }
+            }
+        }
+
+        for(let i = 0; i < cannons.length; i++) {
+            const cannon = cannons[i];
+
+            if (this.hitbox.position.x <= cannon.hitbox.position.x + cannon.hitbox.width &&
+                this.hitbox.position.x + this.hitbox.width >= cannon.hitbox.position.x &&
+                this.hitbox.position.y + this.hitbox.height >= cannon.hitbox.position.y &&
+                this.hitbox.position.y <= cannon.hitbox.position.y + cannon.hitbox.height
+            ) {
+                if (this.velocity.y < 0) {
+                    this.velocity.y = 0;
+
+                    const offset = this.hitbox.position.y - this.position.y;
+                    this.position.y = cannon.hitbox.position.y + cannon.hitbox.height - offset + 0.01;
+                    break;
+                }
+
+                if (this.velocity.y > 0) {
+                    this.velocity.y = 0;
+
+                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
+                    this.position.y = cannon.hitbox.position.y - offset - 0.01;
                     break;
                 }
             }

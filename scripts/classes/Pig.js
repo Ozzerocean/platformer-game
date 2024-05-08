@@ -204,8 +204,12 @@ class Pig extends Unit {
             
         } else {
             const now = new Date();
-            if (now - this.date > 300) this.isTimed = false;
+            if (now - this.time > 300) this.isTimed = false;
         }
+    }
+
+    checkOpportunities() {
+        this.checkAttackOpportunity();
     }
 
     draw() {
