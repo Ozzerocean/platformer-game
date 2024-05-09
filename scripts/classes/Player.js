@@ -25,6 +25,142 @@ class Player extends Unit {
                 loop: true,
                 imageSrc: './img/king/runLeft.png'
             },
+            attackRight: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/king/attackRight.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.handleInput();
+                }
+            },
+            attackLeft: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/king/attackLeft.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.handleInput();
+                }
+            },
+            jumpLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/jumpLeft.png'
+            },
+            jumpRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/jumpRight.png'
+            },
+            fallLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/fallLeft.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            fallRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/fallRight.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            groundLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/groundLeft.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.isFalling = false;
+                    this.handleInput();
+                }
+            },
+            groundRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/king/groundRight.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.isFalling = false;
+                    this.handleInput();
+                }
+            },
+            hitLeft: {
+                frameRate: 2,
+                loop: false,
+                imageSrc: './img/king/hitLeft.png',
+                onComplete: () => {
+                    this.isHit = false;
+                    this.preventAnimation = false;
+                    this.preventInput = false;
+                    this.handleInput();
+                    this.getDamage();
+                }
+            },
+            hitRight: {
+                frameRate: 2,
+                loop: false,
+                imageSrc: './img/king/hitRight.png',
+                onComplete: () => {
+                    this.isHit = false;
+                    this.preventAnimation = false;
+                    this.preventInput = false;
+                    this.handleInput();
+                    this.getDamage();
+                }
+            },
+            deadLeft: {
+                frameRate: 4,
+                loop: false,
+                imageSrc: './img/king/deadLeft.png',
+                onComplete: () => {
+                    gsap.to(overlay, {
+                        opacity: 1,
+                        onComplete: () => {
+                            levels[level].update();
+
+                            this.isDying = false;
+                            this.preventInput = false;
+                            this.preventAnimation = false;
+
+                            this.health = 3;
+                            healthbar.initHearts();
+
+                            gsap.to(overlay, {
+                                opacity: 0
+                            })
+                        }
+                    })
+                }
+            },
+            deadRight: {
+                frameRate: 4,
+                loop: false,
+                imageSrc: './img/king/deadRight.png',
+                onComplete: () => {
+                    gsap.to(overlay, {
+                        opacity: 1,
+                        onComplete: () => {
+                            levels[level].update();
+
+                            this.isDying = false;
+                            this.preventInput = false;
+                            this.preventAnimation = false;
+
+                            this.health = 3;
+                            healthbar.initHearts();
+
+                            gsap.to(overlay, {
+                                opacity: 0
+                            })
+                        }
+                    })
+                }
+            },
             doorInRight: {
                 frameRate: 8,
                 loop: false,
@@ -103,142 +239,6 @@ class Player extends Unit {
                     player.preventAnimation = false;
                 }
             },
-            attackRight: {
-                frameRate: 3,
-                loop: false,
-                imageSrc: './img/king/attackRight.png',
-                onComplete: () => {
-                    this.preventAnimation = false;
-                    this.handleInput(keys);
-                }
-            },
-            attackLeft: {
-                frameRate: 3,
-                loop: false,
-                imageSrc: './img/king/attackLeft.png',
-                onComplete: () => {
-                    this.preventAnimation = false;
-                    this.handleInput(keys);
-                }
-            },
-            jumpLeft: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/jumpLeft.png'
-            },
-            jumpRight: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/jumpRight.png'
-            },
-            fallLeft: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/fallLeft.png',
-                onComplete: () => {
-                    this.isFalling = true;
-                }
-            },
-            fallRight: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/fallRight.png',
-                onComplete: () => {
-                    this.isFalling = true;
-                }
-            },
-            groundLeft: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/groundLeft.png',
-                onComplete: () => {
-                    this.preventAnimation = false;
-                    this.isFalling = false;
-                    this.handleInput(keys);
-                }
-            },
-            groundRight: {
-                frameRate: 1,
-                loop: false,
-                imageSrc: './img/king/groundRight.png',
-                onComplete: () => {
-                    this.preventAnimation = false;
-                    this.isFalling = false;
-                    this.handleInput(keys);
-                }
-            },
-            hitLeft: {
-                frameRate: 2,
-                loop: false,
-                imageSrc: './img/king/hitLeft.png',
-                onComplete: () => {
-                    this.isHit = false;
-                    this.preventAnimation = false;
-                    this.preventInput = false;
-                    this.handleInput(keys);
-                    this.getDamage();
-                }
-            },
-            hitRight: {
-                frameRate: 2,
-                loop: false,
-                imageSrc: './img/king/hitRight.png',
-                onComplete: () => {
-                    this.isHit = false;
-                    this.preventAnimation = false;
-                    this.preventInput = false;
-                    this.handleInput(keys);
-                    this.getDamage();
-                }
-            },
-            deadLeft: {
-                frameRate: 4,
-                loop: false,
-                imageSrc: './img/king/deadLeft.png',
-                onComplete: () => {
-                    gsap.to(overlay, {
-                        opacity: 1,
-                        onComplete: () => {
-                            levels[level].update();
-
-                            this.isDying = false;
-                            this.preventInput = false;
-                            this.preventAnimation = false;
-
-                            this.health = 3;
-                            healthbar.initHearts();
-
-                            gsap.to(overlay, {
-                                opacity: 0
-                            })
-                        }
-                    })
-                }
-            },
-            deadRight: {
-                frameRate: 4,
-                loop: false,
-                imageSrc: './img/king/deadRight.png',
-                onComplete: () => {
-                    gsap.to(overlay, {
-                        opacity: 1,
-                        onComplete: () => {
-                            levels[level].update();
-
-                            this.isDying = false;
-                            this.preventInput = false;
-                            this.preventAnimation = false;
-
-                            this.health = 3;
-                            healthbar.initHearts();
-
-                            gsap.to(overlay, {
-                                opacity: 0
-                            })
-                        }
-                    })
-                }
-            },
         }, 
         loop, 
         autoplay
@@ -259,6 +259,21 @@ class Player extends Unit {
         this.lastDirection = 'right';
         this.preventInput = false;
         this.preventAnimation = false;
+
+        this.keys = {
+            w: {
+                pressed: false
+            },
+            a: {
+                pressed: false
+            },
+            d: {
+                pressed: false
+            }
+        }
+
+        this.updateHitbox();
+        this.updateDamagebox();
     }
 
     getDamage() {
@@ -295,7 +310,7 @@ class Player extends Unit {
         // c.fillRect(player.damagebox.position.x, player.damagebox.position.y, player.damagebox.width, player.damagebox.height);
     }
 
-    handleInput(keys) {
+    handleInput() {
         if (!this.isHit) this.velocity.x = 0;
 
         if (!this.preventInput) {
@@ -325,20 +340,20 @@ class Player extends Unit {
                 }
             }
 
-            if (keys.d.pressed) this.velocity.x = 3;
-            else if (keys.a.pressed) this.velocity.x = -3;
+            if (this.keys.d.pressed) this.velocity.x = 3;
+            else if (this.keys.a.pressed) this.velocity.x = -3;
         } 
 
         if (this.preventAnimation) return;
 
         if (this.velocity.y == 0) {
-            if (player.currentAnimation) player.currentAnimation.isActive = false;
+            if (this.currentAnimation) this.currentAnimation.isActive = false;
 
             if (this.isFalling) {
-                if (keys.d.pressed) {
+                if (this.keys.d.pressed) {
                     this.switchSprite('groundRight');
                     this.lastDirection = 'right'
-                } else if (keys.a.pressed) {
+                } else if (this.keys.a.pressed) {
                     this.lastDirection = 'left'
                     this.switchSprite('groundLeft');
                 } else {
@@ -349,10 +364,10 @@ class Player extends Unit {
                 return; 
             } 
 
-            if (keys.d.pressed) {
+            if (this.keys.d.pressed) {
                 this.switchSprite('runRight');
                 this.lastDirection = 'right'
-            } else if (keys.a.pressed) {
+            } else if (this.keys.a.pressed) {
                 this.lastDirection = 'left'
                 this.switchSprite('runLeft');
             } else {
@@ -360,10 +375,10 @@ class Player extends Unit {
                 else this.switchSprite('idleLeft');
             }    
         } else if (this.velocity.y < 0) {
-            if (keys.d.pressed) {
+            if (this.keys.d.pressed) {
                 this.switchSprite('jumpRight');
                 this.lastDirection = 'right'
-            } else if (keys.a.pressed) {
+            } else if (this.keys.a.pressed) {
                 this.lastDirection = 'left'
                 this.switchSprite('jumpLeft');
             } else {
@@ -371,10 +386,10 @@ class Player extends Unit {
                 else this.switchSprite('jumpLeft');
             }
         } else if (this.velocity.y > 0) {
-            if (keys.d.pressed) {
+            if (this.keys.d.pressed) {
                 this.switchSprite('fallRight');
                 this.lastDirection = 'right'
-            } else if (keys.a.pressed) {
+            } else if (this.keys.a.pressed) {
                 this.lastDirection = 'left'
                 this.switchSprite('fallLeft');
             } else {
@@ -439,28 +454,28 @@ class Player extends Unit {
     }
 
     checkHorizontalUnitsCollision() {
-        for(let i = 0; i < pigs.length; i++) {
-            const pig = pigs[i];
-            if (pig.isDying) continue;
+        // for(let i = 0; i < pigs.length; i++) {
+        //     const pig = pigs[i];
+        //     if (pig.isDying) continue;
 
-            if (this.hitbox.position.x <= pig.hitbox.position.x + pig.hitbox.width &&
-                this.hitbox.position.x + this.hitbox.width >= pig.hitbox.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= pig.hitbox.position.y &&
-                this.hitbox.position.y <= pig.hitbox.position.y + pig.hitbox.height
-            ) {
-                if (this.velocity.x < 0) {
-                    const offset = this.hitbox.position.x - this.position.x;
-                    this.position.x = pig.hitbox.position.x + pig.hitbox.width - offset + 0.01;
-                    break;
-                }
+        //     if (this.hitbox.position.x <= pig.hitbox.position.x + pig.hitbox.width &&
+        //         this.hitbox.position.x + this.hitbox.width >= pig.hitbox.position.x &&
+        //         this.hitbox.position.y + this.hitbox.height >= pig.hitbox.position.y &&
+        //         this.hitbox.position.y <= pig.hitbox.position.y + pig.hitbox.height
+        //     ) {
+        //         if (this.velocity.x < 0) {
+        //             const offset = this.hitbox.position.x - this.position.x;
+        //             this.position.x = pig.hitbox.position.x + pig.hitbox.width - offset + 0.01;
+        //             break;
+        //         }
 
-                if (this.velocity.x > 0) {
-                    const offset = this.hitbox.position.x - this.position.x + this.hitbox.width;
-                    this.position.x = pig.hitbox.position.x - offset - 0.01;
-                    break;
-                }
-            }
-        }
+        //         if (this.velocity.x > 0) {
+        //             const offset = this.hitbox.position.x - this.position.x + this.hitbox.width;
+        //             this.position.x = pig.hitbox.position.x - offset - 0.01;
+        //             break;
+        //         }
+        //     }
+        // }
 
         for(let i = 0; i < cannons.length; i++) {
             const cannon = cannons[i];
@@ -486,32 +501,32 @@ class Player extends Unit {
     }
 
     checkVerticalUnitsCollision() {
-        for(let i = 0; i < pigs.length; i++) {
-            const pig = pigs[i];
-            if (pig.isDying) continue;
+        // for(let i = 0; i < pigs.length; i++) {
+        //     const pig = pigs[i];
+        //     if (pig.isDying) continue;
 
-            if (this.hitbox.position.x <= pig.hitbox.position.x + pig.hitbox.width &&
-                this.hitbox.position.x + this.hitbox.width >= pig.hitbox.position.x &&
-                this.hitbox.position.y + this.hitbox.height >= pig.hitbox.position.y &&
-                this.hitbox.position.y <= pig.hitbox.position.y + pig.hitbox.height
-            ) {
-                if (this.velocity.y < 0) {
-                    this.velocity.y = 0;
+        //     if (this.hitbox.position.x <= pig.hitbox.position.x + pig.hitbox.width &&
+        //         this.hitbox.position.x + this.hitbox.width >= pig.hitbox.position.x &&
+        //         this.hitbox.position.y + this.hitbox.height >= pig.hitbox.position.y &&
+        //         this.hitbox.position.y <= pig.hitbox.position.y + pig.hitbox.height
+        //     ) {
+        //         if (this.velocity.y < 0) {
+        //             this.velocity.y = 0;
 
-                    const offset = this.hitbox.position.y - this.position.y;
-                    this.position.y = pig.hitbox.position.y + pig.hitbox.height - offset + 0.01;
-                    break;
-                }
+        //             const offset = this.hitbox.position.y - this.position.y;
+        //             this.position.y = pig.hitbox.position.y + pig.hitbox.height - offset + 0.01;
+        //             break;
+        //         }
 
-                if (this.velocity.y > 0) {
-                    this.velocity.y = 0;
+        //         if (this.velocity.y > 0) {
+        //             this.velocity.y = 0;
 
-                    const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
-                    this.position.y = pig.hitbox.position.y - offset - 0.01;
-                    break;
-                }
-            }
-        }
+        //             const offset = this.hitbox.position.y - this.position.y + this.hitbox.height;
+        //             this.position.y = pig.hitbox.position.y - offset - 0.01;
+        //             break;
+        //         }
+        //     }
+        // }
 
         for(let i = 0; i < cannons.length; i++) {
             const cannon = cannons[i];

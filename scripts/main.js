@@ -59,7 +59,6 @@ levels.push(
                     y: 64 * 2
                 },
                 lastDirection: 'left',
-                imageSrc: './img/pigs/idleLeft.png',
                 frameRate: 11,
             }),
             new Pig({
@@ -69,17 +68,15 @@ levels.push(
                     y: 64 * 3
                 },
                 lastDirection: 'right',
-                imageSrc: './img/pigs/idleRight.png',
                 frameRate: 11,
             }),
             new CannonPig({
                 collisionObjects,
                 position: {
-                    x: 64 * 14 + 1,
+                    x: 64 * 14 + 2,
                     y: 64 * 2
                 },
                 lastDirection: 'left',
-                imageSrc: './img/pigs/idleLeft.png',
                 frameRate: 11,
             }),
         ],
@@ -152,7 +149,6 @@ levels.push(
                     y: 64 * 2
                 },
                 lastDirection: 'left',
-                imageSrc: './img/pigs/idleLeft.png',
                 frameRate: 11,
             }),
             new Pig({
@@ -162,7 +158,6 @@ levels.push(
                     y: 64 * 3
                 },
                 lastDirection: 'right',
-                imageSrc: './img/pigs/idleRight.png',
                 frameRate: 11,
             }),
             new CannonPig({
@@ -172,7 +167,6 @@ levels.push(
                     y: 64 * 1
                 },
                 lastDirection: 'right',
-                imageSrc: './img/pigs/idleRight.png',
                 frameRate: 11,
             }),
         ],
@@ -218,18 +212,6 @@ healthbar.initHearts();
 const diamondbar = new DiamondBar({});
 diamondbar.initNumbers();
 
-const keys = {
-    w: {
-        pressed: false
-    },
-    a: {
-        pressed: false
-    },
-    d: {
-        pressed: false
-    }
-}
-
 const overlay = {
     opacity: 0
 }
@@ -258,12 +240,13 @@ function animate() {
         door.draw();
     });
 
-    pigs.forEach((pig) => {
-        pig.update();
+    pigs.forEach((pig, index) => {
+        pig.handleInput();
+        pig.update(index);
         pig.draw();
     });
     
-    player.handleInput(keys);
+    player.handleInput();
     player.draw();
     player.update();
 

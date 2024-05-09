@@ -48,11 +48,11 @@ window.addEventListener("keydown", (event) => {
             break;
         case "ф": 
         case "a":
-            keys.a.pressed = true;
+            player.keys.a.pressed = true;
             break;
         case "в":
         case "d":
-            keys.d.pressed = true;
+            player.keys.d.pressed = true;
             break;
     }
 });
@@ -61,15 +61,15 @@ window.addEventListener("keyup", (event) => {
     switch (event.key) {
         case "ц":
         case "w":
-            keys.w.pressed = false;
+            player.keys.w.pressed = false;
             break;
         case "ф": 
         case "a":
-            keys.a.pressed = false;
+            player.keys.a.pressed = false;
             break;
         case "в":
         case "d":
-            keys.d.pressed = false;
+            player.keys.d.pressed = false;
             break;
     }
 });

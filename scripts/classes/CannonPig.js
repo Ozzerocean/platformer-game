@@ -17,6 +17,86 @@ class CannonPig extends Pig {
                 loop: true,
                 imageSrc: './img/pigs/idleLeft.png'
             },
+            runRight: {
+                frameRate: 6,
+                loop: true,
+                imageSrc: './img/pigs/runRight.png'
+            },
+            runLeft: {
+                frameRate: 6,
+                loop: true,
+                imageSrc: './img/pigs/runLeft.png'
+            },
+            attackLeft: {
+                frameRate: 5,
+                loop: false,
+                imageSrc: './img/pigs/attackLeft.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.handleInput();
+                    this.time.setSeconds(this.time.getSeconds() + 1)
+                    this.haveMatch = false;
+                    this.isLighting = false;
+                }
+            },
+            attackRight: {
+                frameRate: 5,
+                loop: false,
+                imageSrc: './img/pigs/attackRight.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.handleInput();
+                    this.time.setSeconds(this.time.getSeconds() + 1)
+                    this.haveMatch = false;
+                    this.isLighting = false;
+                }
+            },
+            jumpLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/jumpLeft.png'
+            },
+            jumpRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/jumpRight.png'
+            },
+            fallLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/fallLeft.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            fallRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/fallRight.png',
+                onComplete: () => {
+                    this.isFalling = true;
+                }
+            },
+            groundLeft: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/groundLeft.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.isFalling = false;
+                    this.handleInput();
+                }
+            },
+            groundRight: {
+                frameRate: 1,
+                loop: false,
+                imageSrc: './img/pigs/groundRight.png',
+                onComplete: () => {
+                    this.preventAnimation = false;
+                    this.isFalling = false;
+                    this.handleInput();
+                }
+            },
             hitLeft: {
                 frameRate: 2,
                 frameBuffer: 10,
@@ -69,28 +149,6 @@ class CannonPig extends Pig {
                     })
                 }
             },
-            attackLeft: {
-                frameRate: 5,
-                loop: false,
-                imageSrc: './img/pigs/attackLeft.png',
-                onComplete: () => {
-                    this.switchSprite("idleLeft");
-                    this.time.setSeconds(this.time.getSeconds() + 1)
-                    this.haveMatch = false;
-                    this.isLighting = false;
-                }
-            },
-            attackRight: {
-                frameRate: 5,
-                loop: false,
-                imageSrc: './img/pigs/attackRight.png',
-                onComplete: () => {
-                    this.switchSprite("idleRight");
-                    this.time.setSeconds(this.time.getSeconds() + 1)
-                    this.haveMatch = false;
-                    this.isLighting = false;
-                }
-            },
             lightingMatchLeft: {
                 frameRate: 3,
                 frameBuffer: 10,
@@ -136,6 +194,8 @@ class CannonPig extends Pig {
                 onComplete: () => {
                     this.isLighting = false;
                     this.haveMatch = false;
+                    this.preventInput = false;
+                    this.preventAnimation = false;
                     this.switchSprite("idleLeft");
                 }
             },
@@ -147,6 +207,8 @@ class CannonPig extends Pig {
                 onComplete: () => {
                     this.isLighting = false;
                     this.haveMatch = false;
+                    this.preventInput = false;
+                    this.preventAnimation = false;
                     this.switchSprite("idleRight");
                 }
             },
@@ -192,6 +254,8 @@ class CannonPig extends Pig {
 
                 this.isLighting = true;
                 this.lightingTime = now;
+                this.preventInput = true;
+                this.preventAnimation = true;
     
                 if (this.lastDirection == 'right') this.switchSprite('lightingMatchRight')
                 else if (this.lastDirection == 'left') this.switchSprite('lightingMatchLeft')
