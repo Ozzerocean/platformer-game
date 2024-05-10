@@ -50,49 +50,55 @@ class CannonBall extends Unit {
         this.velocity.y = 0.001;
 
         this.isCollision = false;
+        this.units = {
+            "-1": {
+                isDamaged: false
+            }
+        }
+
         this.isDamaged = false;
 
         this.updateHitbox();
         this.updateDamegebox();
     }
 
-    checkCollisions() {
-        if (!player.isDying && !player.isHit && !this.isDamaged &&
-            player.hitbox.position.x <= this.damagebox.position.x + this.damagebox.width &&
-            player.hitbox.position.x + player.hitbox.width >= this.damagebox.position.x &&
-            player.hitbox.position.y + player.hitbox.height >= this.damagebox.position.y &&
-            player.hitbox.position.y <= this.damagebox.position.y + this.damagebox.height
+    checkUnitCollisions(unit, index = -1) {
+        if (!unit.isDying && !unit.isHit && !this.isDamaged && !this.units[index]?.isDamaged &&
+            unit.hitbox.position.x <= this.damagebox.position.x + this.damagebox.width &&
+            unit.hitbox.position.x + unit.hitbox.width >= this.damagebox.position.x &&
+            unit.hitbox.position.y + unit.hitbox.height >= this.damagebox.position.y &&
+            unit.hitbox.position.y <= this.damagebox.position.y + this.damagebox.height
         ) {
-            player.isFalling = false;
-            player.isHit = true;
-            player.preventAnimation = true;
-            player.preventInput = true;
+            unit.isFalling = false;
+            unit.isHit = true;
+            unit.preventAnimation = true;
+            unit.preventInput = true;
 
             if (!this.isCollision) {
-                player.velocity.y = player.knockbackVelocity.y;
-                if (this.direction == "left") player.velocity.x = -player.knockbackVelocity.x;
-                else if (this.direction = "right") player.velocity.x = player.knockbackVelocity.x;
+                unit.velocity.y = unit.knockbackVelocity.y;
+                if (this.direction == "left") unit.velocity.x = -unit.knockbackVelocity.x;
+                else if (this.direction = "right") unit.velocity.x = unit.knockbackVelocity.x;
             } else {
-                if (player.hitbox.position.x + player.hitbox.width < this.damagebox.position.x + this.damagebox.width / 2) {
-                    player.velocity.x = -player.knockbackVelocity.x;
+                if (unit.hitbox.position.x + unit.hitbox.width < this.damagebox.position.x + this.damagebox.width / 2) {
+                    unit.velocity.x = -unit.knockbackVelocity.x;
                 } else if (player.hitbox.position.x > this.damagebox.position.x + this.damagebox.width / 2) {
-                    player.velocity.x = player.knockbackVelocity.x;
+                    player.velocity.x = unit.knockbackVelocity.x;
                 }
 
-                if (player.hitbox.position.y < this.damagebox.position.x + this.damagebox.width / 2) {
-                    player.velocity.y = player.knockbackVelocity.y;
+                if (unit.hitbox.position.y < this.damagebox.position.x + this.damagebox.width / 2) {
+                    unit.velocity.y = unit.knockbackVelocity.y;
                 } else {
-                    player.velocity.y = -player.knockbackVelocity.y;
+                    unit.velocity.y = -unit.knockbackVelocity.y;
                 }
             }
             
             
-            if (player.lastDirection === 'left') player.switchSprite('hitLeft') 
-            else if (player.lastDirection === 'right') player.switchSprite('hitRight');
-
-            this.isDamaged = true;
+            if (unit.lastDirection === 'left') unit.switchSprite('hitLeft') 
+            else if (unit.lastDirection === 'right') unit.switchSprite('hitRight');
         }
+    }
 
+    checkCollisions() {
         if (this.isCollision) {
             this.isDamaged = true;
 
@@ -178,6 +184,8 @@ class CannonBall extends Unit {
         this.checkVerticalCollisions();
 
         this.updateDamegebox();
+        this.checkUnitCollisions(player);
+        pigs.forEach((pig, index) => this.checkUnitCollisions(pig, index))
         this.checkCollisions();
     }
 

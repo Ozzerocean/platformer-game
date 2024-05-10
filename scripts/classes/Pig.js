@@ -203,10 +203,10 @@ class Pig extends Unit {
 
         this.updateDamagebox();
 
-        c.fillStyle = 'rgba(255, 0, 0, 0.3)';
-        c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
-        c.fillStyle = 'rgba(0, 0, 255, 0.3)';
-        c.fillRect(this.damagebox.position.x, this.damagebox.position.y, this.damagebox.width, this.damagebox.height);
+        // c.fillStyle = 'rgba(255, 0, 0, 0.3)';
+        // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
+        // c.fillStyle = 'rgba(0, 0, 255, 0.3)';
+        // c.fillRect(this.damagebox.position.x, this.damagebox.position.y, this.damagebox.width, this.damagebox.height);
     }
 
     updateHitbox() {
@@ -379,9 +379,9 @@ class Pig extends Unit {
         if (Math.abs(player.hitbox.position.y + player.hitbox.height - this.hitbox.position.y - this.hitbox.height) > 65) return false;
         if (Math.abs(player.hitbox.position.x - this.hitbox.position.x) > this.visabilityRange) return false;
 
-        if (player.hitbox.position.x + player.hitbox.width + 10 < this.hitbox.position.x) {
+        if (player.hitbox.position.x + player.hitbox.width < this.hitbox.position.x) {
             this.keys.a.pressed = true;
-        } else if (player.hitbox.position.x > this.hitbox.position.x + this.hitbox.width + 10) {
+        } else if (player.hitbox.position.x > this.hitbox.position.x + this.hitbox.width) {
             this.keys.d.pressed = true;
         }
 
