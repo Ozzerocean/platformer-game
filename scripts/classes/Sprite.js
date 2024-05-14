@@ -58,8 +58,6 @@ class Sprite {
             height: this.height
         }
 
-        
-
         canvas.drawImage(
             this.image,
             cropbox.position.x,
@@ -96,5 +94,5 @@ class Sprite {
                 this.currentAnimation.onComplete();
             }
         }
-     }
+    }
 }

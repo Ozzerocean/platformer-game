@@ -10,15 +10,15 @@ class HealthBar extends Sprite {
 
         this.heartsPosition = [
             {
-                x: this.position + 14 + 22 * 1,
+                x: this.position.x + 36 + 22 * 0,
                 y: 48
             },
             {
-                x: this.position + 14 + 22 * 2,
+                x: this.position.x + 36 + 22 * 1,
                 y: 48
             },
             {
-                x: this.position + 14 + 22 * 3,
+                x: this.position.x + 36 + 22 * 2,
                 y: 48
             },
         ]

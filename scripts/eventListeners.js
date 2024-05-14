@@ -1,7 +1,8 @@
 window.addEventListener("keydown", (event) => {
     if (player.preventInput) return;
     switch (event.key) {
-        case " ": 
+        case "x":
+        case "ч":
             if (player.isHit) return;
 
             player.toAttack = true;
@@ -18,6 +19,7 @@ window.addEventListener("keydown", (event) => {
             break;
         case "ц":
         case "w":
+        case " ":
             for (let i = 0; i < doors.length; i++) {
                 const door = doors[i];
 

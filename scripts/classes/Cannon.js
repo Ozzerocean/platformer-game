@@ -47,6 +47,8 @@ class Cannon extends Unit {
         this.isShot = false;
         this.cannonBalls = [];
 
+        this.lastPigShot;
+
         this.affectedArea = affectedArea;
         this.power = power
 
@@ -76,7 +78,8 @@ class Cannon extends Unit {
                         x: this.hitbox.position.x - 100,
                         y: this.hitbox.position.y - 67
                     },
-                    direction: this.direction
+                    direction: this.direction,
+                    pigShot: this.lastPigShot
                 }))
             }
 
@@ -88,7 +91,8 @@ class Cannon extends Unit {
                         x: this.hitbox.position.x + this.hitbox.width - 100,
                         y: this.hitbox.position.y - 67
                     },
-                    direction: this.direction
+                    direction: this.direction,
+                    pigShot: this.lastPigShot
                 }))
             }
 

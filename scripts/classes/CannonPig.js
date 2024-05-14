@@ -288,6 +288,8 @@ class CannonPig extends Pig {
                     this.switchSprite('lightingCannonLeft');
                     cannon.switchSprite('shootLeft');
                 }
+
+                cannon.lastPigShot = this;
             }
         }
     }

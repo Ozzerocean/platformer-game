@@ -118,20 +118,26 @@ class Player extends Unit {
                 loop: false,
                 imageSrc: './img/king/deadLeft.png',
                 onComplete: () => {
-                    gsap.to(overlay, {
-                        opacity: 1,
+                    gsap.to(this.overlay, {
+                        opacity: 0,
                         onComplete: () => {
-                            levels[level].update();
-
-                            this.isDying = false;
-                            this.preventInput = false;
-                            this.preventAnimation = false;
-
-                            this.health = 3;
-                            healthbar.initHearts();
-
                             gsap.to(overlay, {
-                                opacity: 0
+                                opacity: 1,
+                                onComplete: () => {
+                                    this.overlay.opacity = 1;
+                                    levels[level].update();
+        
+                                    this.isDying = false;
+                                    this.preventInput = false;
+                                    this.preventAnimation = false;
+        
+                                    this.health = 3;
+                                    healthbar.initHearts();
+        
+                                    gsap.to(overlay, {
+                                        opacity: 0
+                                    })
+                                }
                             })
                         }
                     })
@@ -142,20 +148,26 @@ class Player extends Unit {
                 loop: false,
                 imageSrc: './img/king/deadRight.png',
                 onComplete: () => {
-                    gsap.to(overlay, {
-                        opacity: 1,
+                    gsap.to(this.overlay, {
+                        opacity: 0,
                         onComplete: () => {
-                            levels[level].update();
-
-                            this.isDying = false;
-                            this.preventInput = false;
-                            this.preventAnimation = false;
-
-                            this.health = 3;
-                            healthbar.initHearts();
-
                             gsap.to(overlay, {
-                                opacity: 0
+                                opacity: 1,
+                                onComplete: () => {
+                                    this.overlay.opacity = 1;
+                                    levels[level].update();
+        
+                                    this.isDying = false;
+                                    this.preventInput = false;
+                                    this.preventAnimation = false;
+        
+                                    this.health = 3;
+                                    healthbar.initHearts();
+        
+                                    gsap.to(overlay, {
+                                        opacity: 0
+                                    })
+                                }
                             })
                         }
                     })
@@ -248,6 +260,10 @@ class Player extends Unit {
             x: 64 * 3,
             y: 64 * 4
         }
+        
+        this.overlay = {
+            opacity: 1
+        }
 
         this.toJump = false;
         this.toAttack = false;
@@ -284,6 +300,8 @@ class Player extends Unit {
             this.preventInput = true;
             this.preventAnimation = true;
             this.velocity.x = 0;
+
+            this.lastPigHit.switchDialogue('loser');
 
             if (this.lastDirection === 'left') this.switchSprite('deadLeft')
             else if (this.lastDirection === 'right') this.switchSprite('deadRight');
@@ -430,6 +448,36 @@ class Player extends Unit {
                 height: 28 + this.hitbox.height + 18
             }
         }
+    }
+
+    draw() {
+        if(!this.loaded) return;
+
+        const cropbox = {
+            position: {
+                x: this.width * this.currentFrame,
+                y: 0
+            },
+            width: this.width,
+            height: this.height
+        }
+
+        c.save();
+        c.globalAlpha = this.overlay.opacity;
+        c.drawImage(
+            this.image,
+            cropbox.position.x,
+            cropbox.position.y,
+            cropbox.width,
+            cropbox.height,
+            this.position.x, 
+            this.position.y,
+            this.width,
+            this.height
+        );
+        c.restore();
+
+        this.updateFrames();
     }
 
     checkDamage(pig) {

@@ -151,6 +151,18 @@ class Pig extends Unit {
     }) {
         super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay})
 
+        this.updateHitbox();
+        this.updateDamagebox();
+
+        this.dialogues = {
+            left: new Dialogue({ unit: this, type: 'left' }),
+            right: new Dialogue({ unit: this, type: 'right' })
+        }
+        this.preventDialogue = {
+            left: false,
+            right: false
+        }
+
         this.previousPosition = +this.position.x;
 
         this.isHit = false;
@@ -182,9 +194,6 @@ class Pig extends Unit {
 
         this.isTimed = false;
         this.time;
-
-        this.updateHitbox();
-        this.updateDamagebox();
     }
 
     update(index = 0) {
@@ -207,6 +216,15 @@ class Pig extends Unit {
         // c.fillRect(this.hitbox.position.x, this.hitbox.position.y, this.hitbox.width, this.hitbox.height);
         // c.fillStyle = 'rgba(0, 0, 255, 0.3)';
         // c.fillRect(this.damagebox.position.x, this.damagebox.position.y, this.damagebox.width, this.damagebox.height);
+    }
+
+    switchDialogue(dialogue) {
+        let type = this.dialogues.left.animations[dialogue + 'In'].type;
+
+        if (!this.preventDialogue[type]) {
+            this.preventDialogue[type] = true;
+            this.dialogues[type].switchSprite(dialogue + 'In')
+        }
     }
 
     updateHitbox() {
@@ -233,7 +251,7 @@ class Pig extends Unit {
         } else if (this.lastDirection === "left") {
             this.damagebox = {
                 position: {
-                    x: this.hitbox.position.x - 25,
+                    x: this.hitbox.position.x - 30,
                     y: this.hitbox.position.y - 23
                 },
                 width: 30 + 15,
@@ -349,7 +367,8 @@ class Pig extends Unit {
             player.hitbox.position.y + player.hitbox.height >= this.damagebox.position.y &&
             player.hitbox.position.y <= this.damagebox.position.y + this.damagebox.height
         ) {
-            if(this.isHit || this.isDying) return;
+            if (this.isHit || this.isDying) return;
+            if (player.isHit || player.isDying) return;
 
             if (!this.isTimed) {
                 this.isTimed = true;
@@ -361,7 +380,8 @@ class Pig extends Unit {
                 this.preventAnimation = true;
                 if (this.lastDirection === 'right') this.switchSprite('attackRight')
                 else if (this.lastDirection === 'left') this.switchSprite('attackLeft')
-                
+                player.lastPigHit = this;
+
                 player.checkDamage(this);
                 this.time.setSeconds(this.time.getSeconds() + 1)
             }
@@ -375,17 +395,36 @@ class Pig extends Unit {
     checkPlayerVisability() {
         this.keys.a.pressed = false;
         this.keys.d.pressed = false;
+        this.isPlayerVisible = true;
 
-        if (Math.abs(player.hitbox.position.y + player.hitbox.height - this.hitbox.position.y - this.hitbox.height) > 65) return false;
-        if (Math.abs(player.hitbox.position.x - this.hitbox.position.x) > this.visabilityRange) return false;
+        if (Math.abs(player.hitbox.position.y + player.hitbox.height - this.hitbox.position.y - this.hitbox.height) > 65) this.isPlayerVisible = false;
+        if (Math.abs(player.hitbox.position.x - this.hitbox.position.x) > this.visabilityRange) this.isPlayerVisible = false;
 
-        if (player.hitbox.position.x + player.hitbox.width < this.hitbox.position.x) {
+        if (!this.isPlayerVisible) {
+            if (this.isAttention && !(this instanceof CannonPig)) {
+                this.isAttention = false;
+                this.switchDialogue('miss');
+            }
+
+            return this.isPlayerVisible;
+        }
+
+        if (!this.isAttention && !(this instanceof CannonPig)) {
+            this.isAttention = true;
+            this.switchDialogue('attention')
+        }
+
+        if (player.hitbox.position.x + player.hitbox.width + 15 < this.hitbox.position.x) {
             this.keys.a.pressed = true;
-        } else if (player.hitbox.position.x > this.hitbox.position.x + this.hitbox.width) {
+        } else if (player.hitbox.position.x > this.hitbox.position.x + this.hitbox.width + 15) {
             this.keys.d.pressed = true;
         }
 
-        return true;
+        if (player.hitbox.position.x + player.hitbox.width / 2 < this.hitbox.position.x + this.hitbox.width / 2) {
+            this.lastDirection = 'left';
+        } else  this.lastDirection = 'right'
+
+        return this.isPlayerVisible;
     }
 
     checkOpportunities() {
@@ -527,5 +566,7 @@ class Pig extends Unit {
         c.restore();
 
         this.updateFrames();
+        this.dialogues.left.draw();
+        this.dialogues.right.draw();
     }
 }

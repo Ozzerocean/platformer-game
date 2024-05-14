@@ -37,7 +37,8 @@ class CannonBall extends Unit {
                     cannon.cannonBalls = [];
                 }
             },
-        }
+        },
+        pigShot
     }) {
         super({ collisionObjects, position, imageSrc, animations })
 
@@ -55,6 +56,8 @@ class CannonBall extends Unit {
                 isDamaged: false
             }
         }
+
+        this.pigShot = pigShot;
 
         this.isDamaged = false;
 
@@ -78,11 +81,13 @@ class CannonBall extends Unit {
                 unit.velocity.y = unit.knockbackVelocity.y;
                 if (this.direction == "left") unit.velocity.x = -unit.knockbackVelocity.x;
                 else if (this.direction = "right") unit.velocity.x = unit.knockbackVelocity.x;
+
+                if (index == -1) unit.lastPigHit = this.pigShot;
             } else {
                 if (unit.hitbox.position.x + unit.hitbox.width < this.damagebox.position.x + this.damagebox.width / 2) {
                     unit.velocity.x = -unit.knockbackVelocity.x;
-                } else if (player.hitbox.position.x > this.damagebox.position.x + this.damagebox.width / 2) {
-                    player.velocity.x = unit.knockbackVelocity.x;
+                } else if (unit.hitbox.position.x > this.damagebox.position.x + this.damagebox.width / 2) {
+                    unit.velocity.x = unit.knockbackVelocity.x;
                 }
 
                 if (unit.hitbox.position.y < this.damagebox.position.x + this.damagebox.width / 2) {
@@ -90,6 +95,8 @@ class CannonBall extends Unit {
                 } else {
                     unit.velocity.y = -unit.knockbackVelocity.y;
                 }
+
+                this.pigShot.switchDialogue('boom')
             }
             
             
