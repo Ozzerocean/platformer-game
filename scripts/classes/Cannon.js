@@ -47,6 +47,24 @@ class Cannon extends Unit {
         this.isShot = false;
         this.cannonBalls = [];
 
+        // this.sounds = {
+        //     shot: new Sound(buffers.cannon.shot),
+        // }
+
+        // this.ballSounds = {
+        //     fly: new Sound(buffers.cannonBall.fly),
+        //     explosion: new Sound(buffers.cannonBall.explosion),
+        // }
+
+        this.sounds = {
+            shot: new Sound('./audio/cannon/shot.wav'),
+        }
+
+        this.ballSounds = {
+            fly: new Sound('./audio/cannonBall/fly.wav'),
+            explosion: new Sound('./audio/cannonBall/explosion.wav'),
+        }
+
         this.lastPigShot;
 
         this.affectedArea = affectedArea;
@@ -79,7 +97,8 @@ class Cannon extends Unit {
                         y: this.hitbox.position.y - 67
                     },
                     direction: this.direction,
-                    pigShot: this.lastPigShot
+                    pigShot: this.lastPigShot,
+                    sounds: this.ballSounds
                 }))
             }
 
@@ -92,7 +111,8 @@ class Cannon extends Unit {
                         y: this.hitbox.position.y - 67
                     },
                     direction: this.direction,
-                    pigShot: this.lastPigShot
+                    pigShot: this.lastPigShot,
+                    sounds: this.ballSounds
                 }))
             }
 

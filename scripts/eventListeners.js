@@ -36,9 +36,11 @@ window.addEventListener("keydown", (event) => {
                     doorIn = door;
                     doorOut = doorIn.toDoor;
 
+                    player.sounds.doorIn.play();
                     if (player.lastDirection == "right") player.switchSprite('doorInRight')
                     else if (player.lastDirection == "left") player.switchSprite('doorInLeft');
 
+                    door.sounds.opening.play();
                     door.switchSprite('opening')
                     return;
                 }
@@ -55,6 +57,22 @@ window.addEventListener("keydown", (event) => {
         case "в":
         case "d":
             player.keys.d.pressed = true;
+            break;
+        case "j":
+            console.log(Tone.context.state)
+            if (Tone.context.state !== "running") {
+                Tone.start();
+            }
+
+            step.start();
+            break;
+        case "l":
+            console.log(Tone.context.state)
+            if (Tone.context.state !== "running") {
+                Tone.start();
+            }
+
+            hit.start();
             break;
     }
 });

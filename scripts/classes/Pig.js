@@ -99,6 +99,8 @@ class Pig extends Unit {
                 loop: false,
                 imageSrc: './img/pigs/hitLeft.png',
                 onComplete: () => {
+                    this.sounds.damaged.play();
+
                     this.velocity.x = 0;
                     if(!this.isDying) {
                         this.isDying = true;
@@ -112,6 +114,8 @@ class Pig extends Unit {
                 loop: false,
                 imageSrc: './img/pigs/hitRight.png',
                 onComplete: () => {
+                    this.sounds.damaged.play();
+
                     this.velocity.x = 0;
                     if(!this.isDying) {
                         this.isDying = true;
@@ -190,6 +194,27 @@ class Pig extends Unit {
         }
         this.speed = 2.3;
 
+        // this.sounds = {
+        //     run: new Sound(buffers.pig.run),
+        //     ground: new Sound(buffers.pig.ground),
+        //     attack: new Sound(buffers.pig.attack),
+        //     hit: new Sound(buffers.pig.hit),
+        //     damaged: new Sound(buffers.pig.damaged),
+        // }
+
+        this.sounds = {
+            run: new Sound('./audio/pig/run.wav'),
+            ground: new Sound('./audio/pig/ground.wav'),
+            attack: new Sound('./audio/pig/attack.wav'),
+            hit: new Sound('./audio/pig/hit.wav'),
+            damaged: new Sound('./audio/pig/damaged.wav'),
+            deadGround: new Sound('./audio/pig/deadGround.wav'),
+            loser: new Sound('./audio/pig/loser.wav'),
+            boom: new Sound('./audio/pig/boom.wav'),
+            attention: new Sound('./audio/pig/attention.wav'),
+            miss: new Sound('./audio/pig/miss.wav'),
+        }
+
         this.visabilityRange = 64 * 3;
 
         this.isTimed = false;
@@ -223,6 +248,7 @@ class Pig extends Unit {
 
         if (!this.preventDialogue[type]) {
             this.preventDialogue[type] = true;
+            // this.sounds[dialogue].play();
             this.dialogues[type].switchSprite(dialogue + 'In')
         }
     }
@@ -263,6 +289,11 @@ class Pig extends Unit {
     handleInput() {
         if (!this.isHit) this.velocity.x = 0;
 
+        if (this.isDying && this.velocity.y == 0 && !this.isDyingGrounded) {
+            this.isDyingGrounded = true;
+            this.sounds.deadGround.play();
+        }
+
         if (!this.preventInput) {
             if (this.currentAnimation) this.currentAnimation.isActive = false;
 
@@ -293,14 +324,33 @@ class Pig extends Unit {
                     if (this.lastDirection === 'right') this.switchSprite('groundRight')
                     else this.switchSprite('groundLeft');
                 }
+                this.sounds.ground.play();
 
                 return; 
             } 
 
             if (this.keys.d.pressed && this.previousPosition != this.position.x) {
+                this.sounds.run.playedKeyD = true;
+
+                if (this.sounds.run.playedKeyA) {
+                    this.sounds.run.playedKeyA = false;
+                    this.sounds.run.currentTime = 0
+                }
+
+                this.sounds.run.play();
+
                 this.switchSprite('runRight');
                 this.lastDirection = 'right'
             } else if (this.keys.a.pressed && this.previousPosition != this.position.x) {
+                this.sounds.run.playedKeyA = true;
+
+                if (this.sounds.run.playedKeyD) {
+                    this.sounds.run.playedKeyD = false;
+                    this.sounds.run.currentTime = 0
+                }
+
+                this.sounds.run.play();
+
                 this.lastDirection = 'left'
                 this.switchSprite('runLeft');
             } else {
@@ -354,6 +404,7 @@ class Pig extends Unit {
                 this.lastDirection = 'left'
             } 
 
+            this.sounds.hit.play();
             if (this.lastDirection === 'left') this.switchSprite('hitLeft')
             else if (this.lastDirection === 'right') this.switchSprite('hitRight');
         }
@@ -378,6 +429,8 @@ class Pig extends Unit {
             const now = new Date();
             if (now - this.time > 250) {
                 this.preventAnimation = true;
+
+                this.sounds.attack.play();
                 if (this.lastDirection === 'right') this.switchSprite('attackRight')
                 else if (this.lastDirection === 'left') this.switchSprite('attackLeft')
                 player.lastPigHit = this;
@@ -397,12 +450,18 @@ class Pig extends Unit {
         this.keys.d.pressed = false;
         this.isPlayerVisible = true;
 
+        if (player.isDying) {
+            this.isAttention = false;
+            return false;
+        }
+
         if (Math.abs(player.hitbox.position.y + player.hitbox.height - this.hitbox.position.y - this.hitbox.height) > 65) this.isPlayerVisible = false;
         if (Math.abs(player.hitbox.position.x - this.hitbox.position.x) > this.visabilityRange) this.isPlayerVisible = false;
 
         if (!this.isPlayerVisible) {
             if (this.isAttention && !(this instanceof CannonPig)) {
                 this.isAttention = false;
+                console.log('miss')
                 this.switchDialogue('miss');
             }
 

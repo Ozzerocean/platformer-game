@@ -24,7 +24,12 @@ class Door extends Sprite {
         loop = false,
         toDoor
     }) {
-        super({ position, imageSrc, animations, loop})
+        super({ position, imageSrc, animations, loop})  
+
+        this.sounds = {
+            opening: new Sound('./audio/door/opening.wav'),
+            closing: new Sound('./audio/door/closing.wav'),
+        }
 
         this.level = level;
         if (toDoor) {

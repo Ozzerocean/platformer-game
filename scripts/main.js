@@ -22,6 +22,12 @@ let pigs = [];
 let cannons = [];
 let items = [];
 
+const reverb = new Tone.Reverb({
+    decay: 1,
+    wet: 0.5
+});
+reverb.toDestination();
+
 let level = 1;
 const levels = [];
 
@@ -111,7 +117,7 @@ levels.push(
             })
         ]
     })
-);
+)
 
 levels.push(
     new Level({

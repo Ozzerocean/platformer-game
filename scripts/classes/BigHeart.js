@@ -24,6 +24,10 @@ class BigHeart extends Unit {
     }) {
         super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations });
 
+        this.sounds = {
+            collected: new Sound('./audio/heart/collected.wav')
+        }
+
         this.isInteracted = false;
         this.isCollected = false;
     }
@@ -49,6 +53,8 @@ class BigHeart extends Unit {
 
             if (player.health < 3) {
                 this.isInteracted = true;
+                player.sounds.pickUp.play();
+                this.sounds.collected.play();
                 this.switchSprite('collected')
             }
         }

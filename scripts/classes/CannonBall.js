@@ -38,7 +38,8 @@ class CannonBall extends Unit {
                 }
             },
         },
-        pigShot
+        pigShot,
+        sounds
     }) {
         super({ collisionObjects, position, imageSrc, animations })
 
@@ -56,6 +57,9 @@ class CannonBall extends Unit {
                 isDamaged: false
             }
         }
+
+        this.sounds = sounds
+        this.sounds.fly.play();
 
         this.pigShot = pigShot;
 
@@ -81,8 +85,6 @@ class CannonBall extends Unit {
                 unit.velocity.y = unit.knockbackVelocity.y;
                 if (this.direction == "left") unit.velocity.x = -unit.knockbackVelocity.x;
                 else if (this.direction = "right") unit.velocity.x = unit.knockbackVelocity.x;
-
-                if (index == -1) unit.lastPigHit = this.pigShot;
             } else {
                 if (unit.hitbox.position.x + unit.hitbox.width < this.damagebox.position.x + this.damagebox.width / 2) {
                     unit.velocity.x = -unit.knockbackVelocity.x;
@@ -98,8 +100,10 @@ class CannonBall extends Unit {
 
                 this.pigShot.switchDialogue('boom')
             }
+
+            if (index == -1) unit.lastPigHit = this.pigShot;
             
-            
+            unit.sounds.hit.play();
             if (unit.lastDirection === 'left') unit.switchSprite('hitLeft') 
             else if (unit.lastDirection === 'right') unit.switchSprite('hitRight');
         }
@@ -117,6 +121,7 @@ class CannonBall extends Unit {
             this.velocity.y = 0;
             this.gravity = 0;
 
+            this.sounds.explosion.play();
             if (this.direction === 'left') this.switchSprite('collisionLeft')
             else if (this.direction === 'right') this.switchSprite('collisionRight')
 
@@ -127,6 +132,7 @@ class CannonBall extends Unit {
             this.isCollision = true;
             this.velocity.x = 0;
 
+            this.sounds.explosion.play();
             this.switchSprite('collisionBottom');
 
             return;

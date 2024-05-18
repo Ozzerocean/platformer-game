@@ -128,6 +128,7 @@ class Player extends Unit {
                                     levels[level].update();
         
                                     this.isDying = false;
+                                    this.isDyingGrounded = false;
                                     this.preventInput = false;
                                     this.preventAnimation = false;
         
@@ -158,6 +159,7 @@ class Player extends Unit {
                                     levels[level].update();
         
                                     this.isDying = false;
+                                    this.isDyingGrounded = false;
                                     this.preventInput = false;
                                     this.preventAnimation = false;
         
@@ -188,7 +190,10 @@ class Player extends Unit {
 
                             doorIn.switchSprite('idle');
 
+                            this.sounds.doorOut.play();
                             player.switchSprite('doorOutRight');
+
+                            doorOut.sounds.closing.play();
                             doorOut.switchSprite('closing');
                             
                             gsap.to(overlay, {
@@ -217,7 +222,10 @@ class Player extends Unit {
 
                             doorIn.switchSprite('idle');
 
+                            this.sounds.doorOut.play();
                             player.switchSprite('doorOutLeft');
+
+                            doorOut.sounds.closing.play();
                             doorOut.switchSprite('closing');
                             
                             gsap.to(overlay, {
@@ -288,11 +296,26 @@ class Player extends Unit {
             }
         }
 
+        this.sounds = {
+            run: new Sound('./audio/player/run.wav'),
+            jump: new Sound('./audio/player/jump.wav'),
+            ground: new Sound('./audio/player/ground.wav'),
+            attack: new Sound('./audio/player/attack.wav'),
+            hit: new Sound('/audio/player/hit.wav'),
+            damaged: new Sound('./audio/player/damaged.wav'),
+            deadGround: new Sound('./audio/player/deadGround.wav'),
+            doorIn: new Sound('./audio/player/doorIn.wav'),
+            doorOut: new Sound('./audio/player/doorOut.wav'),
+            pickUp: new Sound('./audio/player/pickUp.wav'),
+        }
+
         this.updateHitbox();
         this.updateDamagebox();
     }
 
     getDamage() {
+        this.sounds.damaged.play();
+
         if (this.health > 0) this.health--
         if (this.health == 0) {
             if (this.isDying) return;
@@ -303,8 +326,8 @@ class Player extends Unit {
 
             this.lastPigHit.switchDialogue('loser');
 
-            if (this.lastDirection === 'left') this.switchSprite('deadLeft')
-            else if (this.lastDirection === 'right') this.switchSprite('deadRight');
+            if (this.lastPigHit.lastDirection === 'right') this.switchSprite('deadLeft')
+            else if (this.lastPigHit.lastDirection === 'left') this.switchSprite('deadRight');
         }
     }
 
@@ -331,12 +354,19 @@ class Player extends Unit {
     handleInput() {
         if (!this.isHit) this.velocity.x = 0;
 
+        if (this.isDying && this.velocity.y == 0 && !this.isDyingGrounded) {
+            console.log('grounded')
+            this.isDyingGrounded = true;
+            this.sounds.deadGround.play();
+        }
+
         if (!this.preventInput) {
             if (this.currentAnimation) this.currentAnimation.isActive = false;
 
             if (this.velocity.y == 0 && this.toJump) {
                 if (Date.now() - this.pressJumpTime < 150) {
                     this.velocity.y = -10.5;
+                    this.sounds.jump.play();
                 }
                 this.toJump = false;
             }
@@ -350,6 +380,8 @@ class Player extends Unit {
                         player.preventAnimation = true;
 
                         pigs.forEach((pig) => pig.checkDamage());
+
+                        this.sounds.attack.play();
                         if (player.lastDirection === "right") player.switchSprite('attackRight')
                         else if (player.lastDirection === "left") player.switchSprite('attackLeft');
                     }
@@ -379,13 +411,33 @@ class Player extends Unit {
                     else this.switchSprite('groundLeft');
                 }
 
+                this.sounds.ground.play();
+
                 return; 
             } 
 
             if (this.keys.d.pressed) {
+                this.sounds.run.playedKeyD = true;
+
+                if (this.sounds.run.playedKeyA) {
+                    this.sounds.run.playedKeyA = false;
+                    this.sounds.run.switched = true;
+                }
+
+                this.sounds.run.play();
+
                 this.switchSprite('runRight');
                 this.lastDirection = 'right'
             } else if (this.keys.a.pressed) {
+                this.sounds.run.playedKeyA = true;
+
+                if (this.sounds.run.playedKeyD) {
+                    this.sounds.run.playedKeyD = false;
+                    this.sounds.run.switched = true;
+                }
+
+                this.sounds.run.play();
+
                 this.lastDirection = 'left'
                 this.switchSprite('runLeft');
             } else {
@@ -496,6 +548,7 @@ class Player extends Unit {
             if (pig.lastDirection == "left") this.velocity.x = -this.knockbackVelocity.x;
             else if (pig.lastDirection = "right") this.velocity.x = this.knockbackVelocity.x;
             
+            this.sounds.hit.play();
             if (this.lastDirection === 'left') this.switchSprite('hitLeft') 
             else if (this.lastDirection === 'right') this.switchSprite('hitRight');
         }

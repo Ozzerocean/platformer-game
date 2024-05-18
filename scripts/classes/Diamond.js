@@ -26,6 +26,10 @@ class Diamond extends Unit {
     }) {
         super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations });
 
+        this.sounds = {
+            collected: new Sound('./audio/diamond/collected.wav')
+        }
+
         this.isInteracted = false;
         this.isCollected = false;
     }
@@ -50,6 +54,8 @@ class Diamond extends Unit {
             if (this.isInteracted) return;
 
             this.isInteracted = true;
+            player.sounds.pickUp.play();
+            this.sounds.collected.play();
             this.switchSprite('collected')
         }
     }

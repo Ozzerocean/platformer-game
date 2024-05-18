@@ -219,6 +219,9 @@ class CannonPig extends Pig {
         super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay, lastDirection})
         this.animationDelay = 1000;
 
+        this.sounds.lightingMatch = new Sound('./audio/pig/lightingMatch.wav');
+        this.sounds.lightingCannon = new Sound('./audio/pig/lightingCannon.wav');
+
         this.isLighting = false;
         this.haveMatch = false;
         this.lightingTime = Date.now();
@@ -236,18 +239,18 @@ class CannonPig extends Pig {
             ) {
                 if (this.isHit || this.isDying || this.isLighting || this.haveMatch) return;
 
-                if (cannon.direction === 'left' && (
+                if (player.isDying || (cannon.direction === 'left' && (
                     player.hitbox.position.x + player.hitbox.width + cannon.affectedArea.width < cannon.hitbox.position.x ||
                     player.hitbox.position.x > cannon.hitbox.position.x + cannon.hitbox.width ||
                     player.hitbox.position.y + player.hitbox.height - 1 <= cannon.hitbox.position.y ||
                     player.hitbox.position.y > cannon.hitbox.position.y + cannon.hitbox.height + cannon.affectedArea.height
-                )) return;
-                if (cannon.direction === 'right' && (
+                ))) return;
+                if (player.isDying || (cannon.direction === 'right' && (
                     player.hitbox.position.x - cannon.affectedArea.width > cannon.hitbox.position.x + cannon.hitbox.width ||
                     player.hitbox.position.x + player.hitbox.width < cannon.hitbox.position.x ||
                     player.hitbox.position.y + player.hitbox.height - 1 <= cannon.hitbox.position.y ||
                     player.hitbox.position.y > cannon.hitbox.position.y + cannon.hitbox.height + cannon.affectedArea.height
-                )) return;
+                ))) return;
 
                 const now = Date.now();
                 if (now - this.lightingTime < this.animationDelay) return;
@@ -256,7 +259,8 @@ class CannonPig extends Pig {
                 this.lightingTime = now;
                 this.preventInput = true;
                 this.preventAnimation = true;
-    
+                
+                this.sounds.lightingMatch.play();
                 if (this.lastDirection == 'right') this.switchSprite('lightingMatchRight')
                 else if (this.lastDirection == 'left') this.switchSprite('lightingMatchLeft')
             }
@@ -274,12 +278,14 @@ class CannonPig extends Pig {
             ) {
                 if(this.isHit || this.isDying || this.isLighting || !this.haveMatch) return;
 
+                this.sounds.lightingCannon.play();
                 const now = Date.now();
                 if (now - this.lightingTime < this.animationDelay) return;
 
                 this.isLighting = true;
                 this.lightingTime = now;
-    
+                
+                cannon.sounds.shot.play();
                 if (this.lastDirection == 'right') {
                     this.switchSprite('lightingCannonRight');
                     cannon.switchSprite('shootRight');
