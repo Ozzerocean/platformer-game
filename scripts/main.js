@@ -28,6 +28,9 @@ const reverb = new Tone.Reverb({
 });
 reverb.toDestination();
 
+const playlist = [];
+let currentSoundtackIndex = 0;
+
 let level = 1;
 const levels = [];
 
@@ -222,8 +225,30 @@ const overlay = {
     opacity: 0
 }
 
+function initPlaylist() {
+    let indecies = [1, 2, 3, 4, 5, 6, 7];
+    indecies.sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < indecies.length; i++) {
+        playlist.push(new Audio('./audio/soundtracks/track-' + indecies[i] + '.mp3'))
+        playlist[i].volume = 0.03;
+
+        playlist[i].addEventListener('ended', function() {
+            currentSoundtackIndex++;
+            if (currentSoundtackIndex == playlist.length) currentSoundtackIndex = 0;
+
+            playlist[currentSoundtackIndex].play();
+        }, false);
+    }
+}
+
 function animate() {
     window.requestAnimationFrame(animate);
+
+    if (playlist[currentSoundtackIndex].paused) {
+        promise = playlist[currentSoundtackIndex].play();
+        promise.catch(error => {})
+    }
 
     s.fillStyle = 'rgb(63, 56, 81)';
     s.fillRect(0, 0, shell.width, shell.height)
@@ -276,4 +301,7 @@ function animate() {
 }
 
 levels[level].update();
+
+initPlaylist();
+console.log(playlist)
 animate();

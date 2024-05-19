@@ -1,6 +1,7 @@
 class Sound {
     constructor(buffer) {
         this.sound = new Tone.Player(buffer)
+        this.sound.volume.value += 3;
 
         this.sound.connect(reverb);
         this.switched = false;

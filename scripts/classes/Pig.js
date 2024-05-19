@@ -248,7 +248,7 @@ class Pig extends Unit {
 
         if (!this.preventDialogue[type]) {
             this.preventDialogue[type] = true;
-            // this.sounds[dialogue].play();
+            this.sounds[dialogue].play();
             this.dialogues[type].switchSprite(dialogue + 'In')
         }
     }
@@ -461,7 +461,6 @@ class Pig extends Unit {
         if (!this.isPlayerVisible) {
             if (this.isAttention && !(this instanceof CannonPig)) {
                 this.isAttention = false;
-                console.log('miss')
                 this.switchDialogue('miss');
             }
 
