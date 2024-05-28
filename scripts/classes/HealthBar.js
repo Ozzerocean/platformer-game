@@ -1,8 +1,8 @@
 class HealthBar extends Sprite {
     constructor({ 
         position = {
-            x: 30,
-            y: 20
+            x: 40,
+            y: 30
         },
         imageSrc = './img/healthBar.png' 
     }) {
@@ -10,16 +10,16 @@ class HealthBar extends Sprite {
 
         this.heartsPosition = [
             {
-                x: this.position.x + 36 + 22 * 0,
-                y: 48
+                x: this.position.x + 40 + 27 * 0,
+                y: 58
             },
             {
-                x: this.position.x + 36 + 22 * 1,
-                y: 48
+                x: this.position.x + 40 + 27 * 1,
+                y: 58
             },
             {
-                x: this.position.x + 36 + 22 * 2,
-                y: 48
+                x: this.position.x + 40 + 27 * 2,
+                y: 58
             },
         ]
 

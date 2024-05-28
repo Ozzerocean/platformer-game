@@ -22,7 +22,9 @@ class Door extends Sprite {
             }
         },
         loop = false,
-        toDoor
+        toDoor,
+        diamondsToEnter = 0,
+        canBeOpened = true,
     }) {
         super({ position, imageSrc, animations, loop})  
 
@@ -30,6 +32,9 @@ class Door extends Sprite {
             opening: new Sound('./audio/door/opening.wav'),
             closing: new Sound('./audio/door/closing.wav'),
         }
+
+        this.diamondsToEnter = diamondsToEnter;
+        this.canBeOpened = canBeOpened;
 
         this.level = level;
         if (toDoor) {

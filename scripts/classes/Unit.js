@@ -61,7 +61,7 @@ class Unit extends Sprite {
     }
 
     applyGravity() {
-        if (this.velocity.y < 8) {
+        if (this.velocity.y < 8.3) {
             this.velocity.y += this.gravity;
         }
         this.position.y += this.velocity.y;

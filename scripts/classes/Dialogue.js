@@ -85,6 +85,40 @@ class Dialogue extends Sprite {
                     this.switchSprite('empty');
                 }
             },
+            diamondsIn: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/dialogue/diamondsIn.png',
+                type: 'right',
+            },
+            diamondsOut: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/dialogue/diamondsOut.png',
+                type: 'right',
+                onComplete: () => {
+                    this.switchSprite('empty');
+                },
+            },
+            hiIn: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/dialogue/hiIn.png',
+                type: 'right',
+                onComplete: () => {
+                    this.switchSprite('hiOut')
+                },
+            },
+            hiOut: {
+                frameRate: 3,
+                loop: false,
+                imageSrc: './img/dialogue/hiOut.png',
+                type: 'right',
+                onComplete: () => {
+                    unit.preventDialogue[this.type] = false;
+                    levels[15].doors[1].canBeOpened = true;
+                },
+            },
         },
         loop = false
     }) {

@@ -1,11 +1,11 @@
 class DiamondBar extends Sprite {
     constructor({ 
         position = {
-            x: 58,
-            y: 75
+            x: healthbar.position.x + 34,
+            y: healthbar.position.y + 68
         },
         imageSrc = './img/diamondBar.png',
-        frameRate = 8,
+        frameRate = 13,
         frameBuffer = 20
     }) {
         super({ position, imageSrc, frameRate, frameBuffer });
@@ -20,8 +20,8 @@ class DiamondBar extends Sprite {
         for (let i = 0; i < this.count.toString().length; i++) {
             const number = new Sprite({
                 position: {
-                    x: 95 + 12 * i,
-                    y: 75
+                    x: this.position.x + 47 + 13 * i,
+                    y: this.position.y + 3
                 },
                 imageSrc: './img/numbers.png',
                 frameRate: 10,
@@ -36,10 +36,11 @@ class DiamondBar extends Sprite {
     }
 
     draw() {
-        super.draw(s);
+        super.draw(s)
 
         this.numbers.forEach((number) => {
             number.draw(s)
         });
     }
 }
+

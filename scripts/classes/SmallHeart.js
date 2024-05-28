@@ -1,20 +1,20 @@
 class SmallHeart extends Sprite {
     constructor({ 
         position,
-        frameRate = 8,
+        frameRate = 13,
         frameBuffer = 20,
         loop = true,
         imageSrc = './img/smallHeart/idle.png',
         animations = {
             idle: {
-                frameRate: 8,
+                frameRate: 13,
                 frameBuffer: 20,
                 loop: true,
                 imageSrc: './img/smallHeart/idle.png'
             },
             hit: {
                 frameRate: 2,
-                frameBuffer: 20,
+                frameBuffer: 12,
                 loop: false,
                 imageSrc: './img/smallHeart/hit.png',
                 onComplete: () => {

@@ -222,6 +222,8 @@ class CannonPig extends Pig {
         this.sounds.lightingMatch = new Sound('./audio/pig/lightingMatch.wav');
         this.sounds.lightingCannon = new Sound('./audio/pig/lightingCannon.wav');
 
+        this.visabilityRange = 64 * 2 - 6;
+
         this.isLighting = false;
         this.haveMatch = false;
         this.lightingTime = Date.now();

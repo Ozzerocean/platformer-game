@@ -2,9 +2,9 @@ class Pig extends Unit {
     constructor({ 
         collisionObjects = [], 
         position,
-        lastDirection, 
+        lastDirection = 'left', 
         imageSrc = './img/pigs/idleRight.png', 
-        frameRate, 
+        frameRate = 11, 
         frameBuffer, 
         animations = {
             idleRight: {
@@ -244,11 +244,12 @@ class Pig extends Unit {
     }
 
     switchDialogue(dialogue) {
+        if (this.isDying) return;
         let type = this.dialogues.left.animations[dialogue + 'In'].type;
 
         if (!this.preventDialogue[type]) {
             this.preventDialogue[type] = true;
-            this.sounds[dialogue].play();
+            if (this.sounds[dialogue]) this.sounds[dialogue].play();
             this.dialogues[type].switchSprite(dialogue + 'In')
         }
     }

@@ -20,6 +20,20 @@ window.addEventListener("keydown", (event) => {
         case "ц":
         case "w":
         case " ":
+            player.toJump = true;
+            player.pressJumpTime = Date.now();
+            
+            break;
+        case "ф": 
+        case "a":
+            player.keys.a.pressed = true;
+            break;
+        case "в":
+        case "d":
+            player.keys.d.pressed = true;
+            break;
+        case "e":
+        case "у":
             for (let i = 0; i < doors.length; i++) {
                 const door = doors[i];
 
@@ -28,10 +42,19 @@ window.addEventListener("keydown", (event) => {
                     player.hitbox.position.y + player.hitbox.height >= door.position.y &
                     player.hitbox.position.y <= door.position.y + door.height
                 ) {
+                    if (diamondbar.count >= door.diamondsToEnter && door.canBeOpened && !door.isOpen) {
+                        diamondbar.count -= door.diamondsToEnter;
+                        diamondbar.initNumbers();
+                        door.isOpen = true;
+                    }
+
+                    if (!door.isOpen) return;
+
                     player.velocity.x = 0;
                     player.velocity.y = 0;
                     player.preventInput = true;
                     player.preventAnimation = true;
+                    player.enteringDoor = true;
 
                     doorIn = door;
                     doorOut = doorIn.toDoor;
@@ -46,33 +69,6 @@ window.addEventListener("keydown", (event) => {
                 }
             }
 
-            player.toJump = true;
-            player.pressJumpTime = Date.now();
-            
-            break;
-        case "ф": 
-        case "a":
-            player.keys.a.pressed = true;
-            break;
-        case "в":
-        case "d":
-            player.keys.d.pressed = true;
-            break;
-        case "j":
-            console.log(Tone.context.state)
-            if (Tone.context.state !== "running") {
-                Tone.start();
-            }
-
-            step.start();
-            break;
-        case "l":
-            console.log(Tone.context.state)
-            if (Tone.context.state !== "running") {
-                Tone.start();
-            }
-
-            hit.start();
             break;
     }
 });
@@ -96,5 +92,8 @@ window.addEventListener("keyup", (event) => {
 
 window.addEventListener('resize', () => {
     shell.width = window.innerWidth;
-    shell.height = window.innerHeight
+    shell.height = window.innerHeight;
+
+    background_canvas.width = window.innerWidth;
+    background_canvas.height = window.innerHeight;
 }, false);

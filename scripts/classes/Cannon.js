@@ -2,9 +2,12 @@ class Cannon extends Unit {
     constructor({
         collisionObjects,
         position,
-        affectedArea,
+        affectedArea = {
+            width: 64 * 3,
+            height: 64 * 3,
+        },
         direction,
-        power = 6,
+        power = 5,
         imageSrc = './img/cannon/idleRight.png',
         frameRate = 1,
         animations = {

@@ -18,10 +18,22 @@ class Level {
     }
 
     update() {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+
         if (player.currentAnimation) player.currentAnimation.isActive = false;
         player.collisionObjects = this.collisionObjects;
-        player.position.x = 64 * 2.5;
-        player.position.y = 64 * 10;
+
+        if (doorOut) {
+            player.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
+            player.position.y = doorOut.position.y - 15.01;
+        } else {
+            // doorOut = levels[level].doors[0];
+            // player.position.x = doorOut.position.x - player.hitbox.width;
+            // player.position.y = doorOut.position.y - 15.01;
+
+            player.position.x = 64 * 9;
+            player.position.y = 64 * 8;
+        }
 
         this.pigs.forEach((pig) => {
             pig.collisionObjects = this.collisionObjects;

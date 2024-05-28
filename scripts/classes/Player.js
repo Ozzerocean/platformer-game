@@ -125,6 +125,11 @@ class Player extends Unit {
                                 opacity: 1,
                                 onComplete: () => {
                                     this.overlay.opacity = 1;
+
+                                    doorOut = undefined;
+
+                                    level = 0;
+                                    initLevels();
                                     levels[level].update();
         
                                     this.isDying = false;
@@ -134,6 +139,9 @@ class Player extends Unit {
         
                                     this.health = 3;
                                     healthbar.initHearts();
+
+                                    diamondbar.count = 0;
+                                    diamondbar.initNumbers();
         
                                     gsap.to(overlay, {
                                         opacity: 0
@@ -156,8 +164,13 @@ class Player extends Unit {
                                 opacity: 1,
                                 onComplete: () => {
                                     this.overlay.opacity = 1;
+                                    
+                                    doorOut = undefined;
+
+                                    level = 0;
+                                    initLevels();
                                     levels[level].update();
-        
+                                    
                                     this.isDying = false;
                                     this.isDyingGrounded = false;
                                     this.preventInput = false;
@@ -165,6 +178,9 @@ class Player extends Unit {
         
                                     this.health = 3;
                                     healthbar.initHearts();
+
+                                    diamondbar.count = 0;
+                                    diamondbar.initNumbers();
         
                                     gsap.to(overlay, {
                                         opacity: 0
@@ -185,13 +201,13 @@ class Player extends Unit {
                         onComplete: () => {
                             level = doorOut.level;
                             levels[level].update();
-                            player.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
-                            player.position.y = doorOut.position.y - 15.01;
+                            this.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
+                            this.position.y = doorOut.position.y - 15.01;
 
                             doorIn.switchSprite('idle');
 
                             this.sounds.doorOut.play();
-                            player.switchSprite('doorOutRight');
+                            this.switchSprite('doorOutRight');
 
                             doorOut.sounds.closing.play();
                             doorOut.switchSprite('closing');
@@ -199,7 +215,7 @@ class Player extends Unit {
                             gsap.to(overlay, {
                                 opacity: 0,
                                 onComplete: () => {
-                                    player.play();
+                                    this.play();
                                     doorOut.play();
                                 }
                             })
@@ -217,13 +233,13 @@ class Player extends Unit {
                         onComplete: () => {
                             level = doorOut.level;
                             levels[level].update();
-                            player.position.x = doorOut.position.x - player.width / 2 + doorOut.width / 2;
-                            player.position.y = doorOut.position.y - 15.01;
+                            this.position.x = doorOut.position.x - this.width / 2 + doorOut.width / 2;
+                            this.position.y = doorOut.position.y - 15.01;
 
                             doorIn.switchSprite('idle');
 
                             this.sounds.doorOut.play();
-                            player.switchSprite('doorOutLeft');
+                            this.switchSprite('doorOutLeft');
 
                             doorOut.sounds.closing.play();
                             doorOut.switchSprite('closing');
@@ -231,7 +247,7 @@ class Player extends Unit {
                             gsap.to(overlay, {
                                 opacity: 0,
                                 onComplete: () => {
-                                    player.play();
+                                    this.play();
                                     doorOut.play();
                                 }
                             })
@@ -245,8 +261,9 @@ class Player extends Unit {
                 autoplay: false,
                 imageSrc: './img/king/doorOutRight.png',
                 onComplete: () => {
-                    player.preventInput = false;
-                    player.preventAnimation = false;
+                    this.preventInput = false;
+                    this.preventAnimation = false;
+                    this.enteringDoor = false;
                 }
             },
             doorOutLeft: {
@@ -255,8 +272,9 @@ class Player extends Unit {
                 autoplay: false,
                 imageSrc: './img/king/doorOutLeft.png',
                 onComplete: () => {
-                    player.preventInput = false;
-                    player.preventAnimation = false;
+                    this.preventInput = false;
+                    this.preventAnimation = false;
+                    this.enteringDoor = false;
                 }
             },
         }, 
@@ -487,16 +505,16 @@ class Player extends Unit {
                     x: this.hitbox.position.x + this.hitbox.width - 25,
                     y: this.hitbox.position.y - 28
                 },
-                width: 64 + 25,
+                width: 72 + 25,
                 height: 28 + this.hitbox.height + 18
             }
         } else if (this.lastDirection === "left") {
             this.damagebox = {
                 position: {
-                    x: this.hitbox.position.x - 64,
+                    x: this.hitbox.position.x - 72,
                     y: this.hitbox.position.y - 28
                 },
-                width: 64 + 25,
+                width: 72 + 25,
                 height: 28 + this.hitbox.height + 18
             }
         }
@@ -538,7 +556,7 @@ class Player extends Unit {
             this.hitbox.position.y + this.hitbox.height >= pig.damagebox.position.y &&
             this.hitbox.position.y <= pig.damagebox.position.y + pig.damagebox.height
         ) {
-            if (this.isDying || this.isHit) return;
+            if (this.isDying || this.isHit || this.enteringDoor) return;
             this.isFalling = false;
             this.isHit = true;
             this.preventAnimation = true;

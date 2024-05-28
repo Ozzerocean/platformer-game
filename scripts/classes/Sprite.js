@@ -30,7 +30,11 @@ class Sprite {
 
     switchSprite(name) {
         if (this.image === this.animations[name].image) return;
+        if (name.includes('idle') && this instanceof Pig) 
+            this.currentFrame = Math.floor(Math.random() * this.frameRate)
+        else 
         this.currentFrame = 0;
+
         this.elapsedFrame = 0;
         this.image = this.animations[name].image;
         this.frameRate = this.animations[name].frameRate;
@@ -66,8 +70,8 @@ class Sprite {
             cropbox.height,
             this.position.x, 
             this.position.y,
-            this.width * scale,
-            this.height * scale
+            this.width,
+            this.height
         );
         
 
