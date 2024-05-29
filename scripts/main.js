@@ -59,7 +59,7 @@ function initPlaylist() {
 
     for (let i = 0; i < indecies.length; i++) {
         playlist.push(new Audio('./audio/soundtracks/track-' + indecies[i] + '.mp3'))
-        playlist[i].volume = 0.03;
+        playlist[i].volume = 0.11;
 
         playlist[i].addEventListener('ended', function() {
             currentSoundtackIndex++;

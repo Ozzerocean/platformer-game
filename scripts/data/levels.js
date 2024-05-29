@@ -44,7 +44,7 @@ function initLevels() {
                 }),
                 new Door({
                     position: {
-                        x: 64 * 16 + 34,
+                        x: 64 * 16 + 24,
                         y: 64 * 4 - 112
                     },
                     level: 1,

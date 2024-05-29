@@ -22,6 +22,9 @@ class TraitorPig extends Pig {
         autoplay
     }) {
         super({ collisionObjects, position, imageSrc, frameRate, frameBuffer, animations, loop, autoplay, lastDirection})
+
+        this.sounds.hi = new Sound('./audio/pig/hi.wav');
+        this.sounds.diamonds = new Sound('./audio/pig/diamonds.wav');
     }
 
     updateHitbox() {
