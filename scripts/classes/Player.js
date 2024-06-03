@@ -373,7 +373,6 @@ class Player extends Unit {
         if (!this.isHit) this.velocity.x = 0;
 
         if (this.isDying && this.velocity.y == 0 && !this.isDyingGrounded) {
-            console.log('grounded')
             this.isDyingGrounded = true;
             this.sounds.deadGround.play();
         }

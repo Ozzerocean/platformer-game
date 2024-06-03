@@ -222,7 +222,7 @@ class CannonPig extends Pig {
         this.sounds.lightingMatch = new Sound('./audio/pig/lightingMatch.wav');
         this.sounds.lightingCannon = new Sound('./audio/pig/lightingCannon.wav');
 
-        this.visabilityRange = 64 * 2 - 6;
+        this.visabilityRange = 64 * 2 - 16;
 
         this.isLighting = false;
         this.haveMatch = false;
@@ -239,23 +239,23 @@ class CannonPig extends Pig {
                 cannon.hitbox.position.y + cannon.hitbox.height >= this.damagebox.position.y &&
                 cannon.hitbox.position.y <= this.damagebox.position.y + this.damagebox.height
             ) {
-                if (this.isHit || this.isDying || this.isLighting || this.haveMatch) return;
+                if (this.isHit || this.isDying || this.isLighting || this.haveMatch) return true;
 
                 if (player.isDying || (cannon.direction === 'left' && (
                     player.hitbox.position.x + player.hitbox.width + cannon.affectedArea.width < cannon.hitbox.position.x ||
                     player.hitbox.position.x > cannon.hitbox.position.x + cannon.hitbox.width ||
                     player.hitbox.position.y + player.hitbox.height - 1 <= cannon.hitbox.position.y ||
                     player.hitbox.position.y > cannon.hitbox.position.y + cannon.hitbox.height + cannon.affectedArea.height
-                ))) return;
+                ))) return false;
                 if (player.isDying || (cannon.direction === 'right' && (
                     player.hitbox.position.x - cannon.affectedArea.width > cannon.hitbox.position.x + cannon.hitbox.width ||
                     player.hitbox.position.x + player.hitbox.width < cannon.hitbox.position.x ||
                     player.hitbox.position.y + player.hitbox.height - 1 <= cannon.hitbox.position.y ||
                     player.hitbox.position.y > cannon.hitbox.position.y + cannon.hitbox.height + cannon.affectedArea.height
-                ))) return;
+                ))) return false;
 
                 const now = Date.now();
-                if (now - this.lightingTime < this.animationDelay) return;
+                if (now - this.lightingTime < this.animationDelay) return true;
 
                 this.isLighting = true;
                 this.lightingTime = now;
@@ -265,6 +265,8 @@ class CannonPig extends Pig {
                 this.sounds.lightingMatch.play();
                 if (this.lastDirection == 'right') this.switchSprite('lightingMatchRight')
                 else if (this.lastDirection == 'left') this.switchSprite('lightingMatchLeft')
+
+                return true;
             }
         }
     }
@@ -301,6 +303,39 @@ class CannonPig extends Pig {
             }
         }
     }
+
+    // checkPlayerVisability() {
+    //     if (player.isDying) {
+    //         this.isAttention = false;
+    //         return false;
+    //     }
+
+    //     this.isPlayerVisible = this.checkLightMatchOpportunity();
+
+    //     if (!this.isPlayerVisible) {
+    //         if (
+    //             Math.abs(player.hitbox.position.y + player.hitbox.height - this.hitbox.position.y - this.hitbox.height) < 193 &&
+    //             Math.abs(player.hitbox.position.x - this.hitbox.position.x) < this.visabilityRange
+    //         ) {
+    //             if (player.hitbox.position.x + player.hitbox.width / 2 < this.hitbox.position.x + this.hitbox.width / 2) this.lastDirection = 'left';
+    //             else  this.lastDirection = 'right'
+    //         } else {
+    //             if (this.isAttention) {
+    //                 this.isAttention = false;
+    //                 this.switchDialogue('miss');
+    //             }
+    //         }
+
+    //         return this.isPlayerVisible;
+    //     }
+
+    //     if (!this.isAttention) {
+    //         this.isAttention = true;
+    //         this.switchDialogue('attention')
+    //     }
+
+    //     return this.isPlayerVisible;
+    // }
 
     checkAttackOpportunity() {
         if (this.isLighting || this.haveMatch) return;

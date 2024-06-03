@@ -1,5 +1,6 @@
 window.addEventListener("keydown", (event) => {
     if (player.preventInput) return;
+    console.log(event.key)
     switch (event.key) {
         case "x":
         case "ч":
@@ -20,20 +21,25 @@ window.addEventListener("keydown", (event) => {
         case "ц":
         case "w":
         case " ":
+        case "ArrowUp":
             player.toJump = true;
             player.pressJumpTime = Date.now();
             
             break;
         case "ф": 
         case "a":
+        case "ArrowLeft":
             player.keys.a.pressed = true;
             break;
         case "в":
         case "d":
+        case "ArrowRight":
             player.keys.d.pressed = true;
             break;
         case "e":
         case "у":
+        case "z":
+        case "я":
             for (let i = 0; i < doors.length; i++) {
                 const door = doors[i];
 
@@ -81,10 +87,12 @@ window.addEventListener("keyup", (event) => {
             break;
         case "ф": 
         case "a":
+        case "ArrowLeft":
             player.keys.a.pressed = false;
             break;
         case "в":
         case "d":
+        case "ArrowRight":
             player.keys.d.pressed = false;
             break;
     }

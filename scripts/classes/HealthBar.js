@@ -38,7 +38,6 @@ class HealthBar extends Sprite {
         if (player.health < this.hearts.length) {
             for (let i = player.health; i < this.hearts.length; i++) {
                 if (!this.hearts[i].isHit) {
-                    // this.hearts[i].isHit = true;
                     this.hearts[i].switchSprite('hit');
                 } 
             }
@@ -56,33 +55,7 @@ class HealthBar extends Sprite {
     }
 
     draw() {
-        if(!this.loaded) return;
-
-        const cropbox = {
-            position: {
-                x: this.width * this.currentFrame,
-                y: 0
-            },
-            width: this.width,
-            height: this.height
-        }
-
-        
-
-        s.drawImage(
-            this.image,
-            cropbox.position.x,
-            cropbox.position.y,
-            cropbox.width,
-            cropbox.height,
-            this.position.x, 
-            this.position.y,
-            this.width,
-            this.height
-        );
-        
-
-        this.updateFrames();
+        super.draw(s)
         this.updateHearts();
     }
 }

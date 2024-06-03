@@ -62,30 +62,9 @@ class Diamond extends Unit {
 
     draw() {
         if(this.isCollected) return;
-        if(!this.loaded) return;
+        
+        super.draw();
 
-        const cropbox = {
-            position: {
-                x: this.width * this.currentFrame,
-                y: 0
-            },
-            width: this.width,
-            height: this.height
-        }
-
-        c.drawImage(
-            this.image,
-            cropbox.position.x,
-            cropbox.position.y,
-            cropbox.width,
-            cropbox.height,
-            this.position.x, 
-            this.position.y,
-            this.width,
-            this.height
-        );
-
-        this.updateFrames();
         this.update();
         this.beCollected();
     }

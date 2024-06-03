@@ -30,6 +30,7 @@ class Sprite {
 
     switchSprite(name) {
         if (this.image === this.animations[name].image) return;
+        
         if (name.includes('idle') && this instanceof Pig) 
             this.currentFrame = Math.floor(Math.random() * this.frameRate)
         else 

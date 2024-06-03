@@ -29,30 +29,7 @@ class SmallHeart extends Sprite {
     }
 
     draw() {
-        if(!this.loaded) return;
-
-        const cropbox = {
-            position: {
-                x: this.width * this.currentFrame,
-                y: 0
-            },
-            width: this.width,
-            height: this.height
-        }    
-
-        s.drawImage(
-            this.image,
-            cropbox.position.x,
-            cropbox.position.y,
-            cropbox.width,
-            cropbox.height,
-            this.position.x, 
-            this.position.y,
-            this.width,
-            this.height
-        );
-        
-
+        super.draw(s)
         this.updateFrames();
     }
 }

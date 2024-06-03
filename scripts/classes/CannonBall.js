@@ -173,9 +173,10 @@ class CannonBall extends Unit {
     }
 
     updateDamegebox() {
-        this.damagebox = this.hitbox;
-
-        if (!this.isCollision) return;
+        if (!this.isCollision) {
+            this.damagebox = this.hitbox;
+            return;
+        }
 
         this.damagebox = {
             position: {
@@ -197,8 +198,10 @@ class CannonBall extends Unit {
         this.checkVerticalCollisions();
 
         this.updateDamegebox();
+        
         this.checkUnitCollisions(player);
-        pigs.forEach((pig, index) => this.checkUnitCollisions(pig, index))
+        pigs.forEach((pig, index) => this.checkUnitCollisions(pig, index));
+
         this.checkCollisions();
     }
 

@@ -15,13 +15,7 @@ class CollisionPlank {
             unit.hitbox.position.y + unit.hitbox.height >= this.position.y &&
             unit.hitbox.position.y <= this.position.y + this.height
         ) {
-            if (unit.velocity.y < 0) {
-                // unit.velocity.y = 0;
-
-                // const offset = unit.hitbox.position.y - unit.position.y;
-                // unit.position.y = this.position.y + this.height - offset + 0.01;
-                return true;
-            }
+            if (unit.velocity.y < 0) return true;
 
             if (unit.velocity.y > 0 && unit.hitbox.position.y + unit.hitbox.height < this.position.y + this.height) {
                 unit.velocity.y = 0;
@@ -34,7 +28,7 @@ class CollisionPlank {
     }
 
     draw() {
-        c.fillStyle = "rgba(255, 0, 255, 0.5)";
+        c.fillStyle = "rgba(255, 0, 255, 0.25)";
         c.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }

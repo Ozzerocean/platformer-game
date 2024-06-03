@@ -50,7 +50,7 @@ class CollisionBeam {
     }
 
     draw() {
-        c.fillStyle = "rgba(0, 0, 255, 0.5)";
+        c.fillStyle = "rgba(0, 0, 255, 0.25)";
         c.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }

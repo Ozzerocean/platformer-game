@@ -82,7 +82,7 @@ function animate() {
     bg.fillRect(0, 0, shell.width, shell.height)
 
     background.draw();
-
+    
     doors.forEach((door) => {
         door.draw();
     });

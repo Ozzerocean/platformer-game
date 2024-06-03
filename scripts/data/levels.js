@@ -300,7 +300,7 @@ function initLevels() {
                     collisionObjects,
                     position: {
                         x: 64 * 8,
-                        y: 64 * 4
+                        y: 64 * 3
                     },
                     affectedArea: {
                         width: 64 * 3,
